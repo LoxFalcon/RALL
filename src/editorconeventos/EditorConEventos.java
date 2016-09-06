@@ -35,7 +35,6 @@ public class EditorConEventos {
         f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         f.add(p);
         f.setVisible(true);
-        System.out.println("Bien, y tu?");
     }
     
 }
