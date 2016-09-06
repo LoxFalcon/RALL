@@ -36,6 +36,7 @@ public class EditorConEventos {
         f.add(p);
         f.setVisible(true);
         System.out.println("Hola como estás?");
+        System.out.println("Bien, y tu?");
     }
     
 }
