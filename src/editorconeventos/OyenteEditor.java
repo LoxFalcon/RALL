@@ -40,15 +40,12 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
                 break;
             case "abrir":
                 abrirArchivo();
-                cambioDocumento = false;
                 break;
             case "guardar":
                 guardarArchivo();
-                cambioDocumento = false;
                 break;
             case "guardarcomo":
                 guardarArchivoComo();
-                cambioDocumento = false;
                 break;
             case "copiar":
                 panel.getAreaTexto().copy();
@@ -96,6 +93,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
             for (String linea : lineal) { //For each, no es necesario usar una variable de control
                 panel.getAreaTexto().append(linea + "\n");
             }
+            cambioDocumento = false;
         }
     }
 
@@ -103,6 +101,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
         String lineas[] = panel.getAreaTexto().getText().split("\n");
         if (archivoActual != null) {
             Archivo.grabarArchivo(archivoActual, lineas);
+            cambioDocumento = false;
         } else {
             JFileChooser seleccion = new JFileChooser();
             seleccion.setAcceptAllFileFilterUsed(false);
@@ -122,6 +121,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
                     rutaArchivo += ext;
                 }
                 Archivo.grabarArchivo(rutaArchivo, lineas);
+                cambioDocumento = false;
             }
         }
 
@@ -147,6 +147,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
                 rutaArchivo += ext;
             }
             Archivo.grabarArchivo(rutaArchivo, lineas);
+            cambioDocumento = false;
         }
     }
 
