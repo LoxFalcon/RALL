@@ -21,8 +21,8 @@ public class DialogoSobre extends javax.swing.JDialog {
      */
     public DialogoSobre(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        initComponents();
         try {
-            initComponents();
             PanelLogo.setImage("/iconos/logo256.png");
             PanelEditor.setPage(getClass().getResource("/extras/sobre.htm"));
         } catch (IOException ex) {
