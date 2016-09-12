@@ -70,6 +70,8 @@ public class lexico implements lexicoConstants {
       case PCOMA:
       case DCOMA:
       case SCOMA:
+      case DCORCHETE:
+      case SCORCHETE:
       case INT:
       case FLOAT:
       case BOOLEAN:
@@ -188,6 +190,12 @@ public class lexico implements lexicoConstants {
         break;
       case SCOMA:
         jj_consume_token(SCOMA);
+        break;
+      case DCORCHETE:
+        jj_consume_token(DCORCHETE);
+        break;
+      case SCORCHETE:
+        jj_consume_token(SCORCHETE);
         break;
       case INT:
         jj_consume_token(INT);
@@ -337,14 +345,80 @@ public class lexico implements lexicoConstants {
     tipoDato();
     jj_consume_token(IDENTIFICADOR);
     jj_consume_token(ASIGNACION);
-    valorDato();
+    operacion();
     jj_consume_token(PCOMA);
   }
 
   static final public void variables() throws ParseException {
     tipoDato();
     jj_consume_token(IDENTIFICADOR);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case DCORCHETE:
+      arreglo();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ASIGNACION:
+        jj_consume_token(ASIGNACION);
+        jj_consume_token(LLAVEA);
+        valorDato();
+        label_3:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case COMA:
+            ;
+            break;
+          default:
+            jj_la1[6] = jj_gen;
+            break label_3;
+          }
+          jj_consume_token(COMA);
+          valorDato();
+        }
+        jj_consume_token(LLAVEC);
+        break;
+      default:
+        jj_la1[7] = jj_gen;
+        ;
+      }
+      break;
+    default:
+      jj_la1[9] = jj_gen;
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case ASIGNACION:
+        jj_consume_token(ASIGNACION);
+        operacion();
+        break;
+      default:
+        jj_la1[8] = jj_gen;
+        ;
+      }
+    }
     jj_consume_token(PCOMA);
+  }
+
+  static final public void operacion() throws ParseException {
+    valorDato();
+    label_4:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case RESTA:
+      case SUMA:
+      case MULTIPLICACION:
+      case DIVISION:
+        ;
+        break;
+      default:
+        jj_la1[10] = jj_gen;
+        break label_4;
+      }
+      operadores();
+      valorDato();
+    }
+  }
+
+  static final public void arreglo() throws ParseException {
+    jj_consume_token(DCORCHETE);
+    operacion();
+    jj_consume_token(SCORCHETE);
   }
 
   static final public void tipoDato() throws ParseException {
@@ -365,13 +439,21 @@ public class lexico implements lexicoConstants {
       jj_consume_token(STR);
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[11] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
   }
 
   static final public void valorDato() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case RESTA:
+      jj_consume_token(RESTA);
+      break;
+    default:
+      jj_la1[12] = jj_gen;
+      ;
+    }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case NUMERO:
       jj_consume_token(NUMERO);
@@ -393,9 +475,17 @@ public class lexico implements lexicoConstants {
       break;
     case IDENTIFICADOR:
       jj_consume_token(IDENTIFICADOR);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case DCORCHETE:
+        arreglo();
+        break;
+      default:
+        jj_la1[13] = jj_gen;
+        ;
+      }
       break;
     default:
-      jj_la1[7] = jj_gen;
+      jj_la1[14] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -409,24 +499,16 @@ public class lexico implements lexicoConstants {
 
   static final public void asignacion() throws ParseException {
     jj_consume_token(IDENTIFICADOR);
-    jj_consume_token(ASIGNACION);
-    valorDato();
-    label_3:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case RESTA:
-      case SUMA:
-      case MULTIPLICACION:
-      case DIVISION:
-        ;
-        break;
-      default:
-        jj_la1[8] = jj_gen;
-        break label_3;
-      }
-      operadores();
-      valorDato();
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case DCORCHETE:
+      arreglo();
+      break;
+    default:
+      jj_la1[15] = jj_gen;
+      ;
     }
+    jj_consume_token(ASIGNACION);
+    operacion();
     jj_consume_token(PCOMA);
   }
 
@@ -454,7 +536,7 @@ public class lexico implements lexicoConstants {
       jj_consume_token(RESTA);
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[16] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -481,7 +563,7 @@ public class lexico implements lexicoConstants {
       jj_consume_token(DIFERENTE);
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[17] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -493,49 +575,6 @@ public class lexico implements lexicoConstants {
     jj_consume_token(PARENTA);
     expresionLogica();
     jj_consume_token(PARENTC);
-    jj_consume_token(LLAVEA);
-    label_4:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case CONSTANTE:
-      case INPUT:
-      case PRINT:
-      case IF:
-      case WHILE:
-      case DO:
-      case FOR:
-      case INT:
-      case FLOAT:
-      case BOOLEAN:
-      case CHAR:
-      case STR:
-      case IDENTIFICADOR:
-        ;
-        break;
-      default:
-        jj_la1[11] = jj_gen;
-        break label_4;
-      }
-      bloque();
-    }
-    if (jj_2_1(2)) {
-      jj_consume_token(LLAVEC);
-      decisionELSE();
-    } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LLAVEC:
-        jj_consume_token(LLAVEC);
-        break;
-      default:
-        jj_la1[12] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
-  }
-
-  static final public void decisionELSE() throws ParseException {
-    jj_consume_token(ELSE);
     jj_consume_token(LLAVEA);
     label_5:
     while (true) {
@@ -556,8 +595,46 @@ public class lexico implements lexicoConstants {
         ;
         break;
       default:
-        jj_la1[13] = jj_gen;
+        jj_la1[18] = jj_gen;
         break label_5;
+      }
+      bloque();
+    }
+    jj_consume_token(LLAVEC);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case ELSE:
+      decisionELSE();
+      break;
+    default:
+      jj_la1[19] = jj_gen;
+      ;
+    }
+  }
+
+  static final public void decisionELSE() throws ParseException {
+    jj_consume_token(ELSE);
+    jj_consume_token(LLAVEA);
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case CONSTANTE:
+      case INPUT:
+      case PRINT:
+      case IF:
+      case WHILE:
+      case DO:
+      case FOR:
+      case INT:
+      case FLOAT:
+      case BOOLEAN:
+      case CHAR:
+      case STR:
+      case IDENTIFICADOR:
+        ;
+        break;
+      default:
+        jj_la1[20] = jj_gen;
+        break label_6;
       }
       bloque();
     }
@@ -567,7 +644,7 @@ public class lexico implements lexicoConstants {
 //Inicio expresionLogica
   static final public void expresionLogica() throws ParseException {
     expresionSimple();
-    label_6:
+    label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case OR:
@@ -575,8 +652,8 @@ public class lexico implements lexicoConstants {
         ;
         break;
       default:
-        jj_la1[14] = jj_gen;
-        break label_6;
+        jj_la1[21] = jj_gen;
+        break label_7;
       }
       operadoresLogicos();
       expresionSimple();
@@ -584,23 +661,26 @@ public class lexico implements lexicoConstants {
   }
 
   static final public void expresionSimple() throws ParseException {
-    if (jj_2_2(2)) {
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case TRUE:
+    case FALSE:
+    case RESTA:
+    case NUMERO:
+    case DECIMAL:
+    case CADENA:
+    case CARACTER:
+    case IDENTIFICADOR:
       valorDato();
       operadoresRelacionales();
       valorDato();
-    } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFICADOR:
-        jj_consume_token(IDENTIFICADOR);
-        break;
-      case NOT:
-        expresionBoolean();
-        break;
-      default:
-        jj_la1[15] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
+      break;
+    case NOT:
+      expresionBoolean();
+      break;
+    default:
+      jj_la1[22] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
   }
 
@@ -621,7 +701,7 @@ public class lexico implements lexicoConstants {
       jj_consume_token(AND);
       break;
     default:
-      jj_la1[16] = jj_gen;
+      jj_la1[23] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -640,7 +720,7 @@ public class lexico implements lexicoConstants {
       cicloFor();
       break;
     default:
-      jj_la1[17] = jj_gen;
+      jj_la1[24] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -648,44 +728,6 @@ public class lexico implements lexicoConstants {
 
   static final public void cicloDoWhile() throws ParseException {
     jj_consume_token(DO);
-    jj_consume_token(LLAVEA);
-    label_7:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case CONSTANTE:
-      case INPUT:
-      case PRINT:
-      case IF:
-      case WHILE:
-      case DO:
-      case FOR:
-      case INT:
-      case FLOAT:
-      case BOOLEAN:
-      case CHAR:
-      case STR:
-      case IDENTIFICADOR:
-        ;
-        break;
-      default:
-        jj_la1[18] = jj_gen;
-        break label_7;
-      }
-      bloque();
-    }
-    jj_consume_token(LLAVEC);
-    jj_consume_token(WHILE);
-    jj_consume_token(PARENTA);
-    expresionLogica();
-    jj_consume_token(PARENTC);
-    jj_consume_token(PCOMA);
-  }
-
-  static final public void cicloWhile() throws ParseException {
-    jj_consume_token(WHILE);
-    jj_consume_token(PARENTA);
-    expresionLogica();
-    jj_consume_token(PARENTC);
     jj_consume_token(LLAVEA);
     label_8:
     while (true) {
@@ -706,35 +748,23 @@ public class lexico implements lexicoConstants {
         ;
         break;
       default:
-        jj_la1[19] = jj_gen;
+        jj_la1[25] = jj_gen;
         break label_8;
       }
       bloque();
     }
     jj_consume_token(LLAVEC);
+    jj_consume_token(WHILE);
+    jj_consume_token(PARENTA);
+    expresionLogica();
+    jj_consume_token(PARENTC);
+    jj_consume_token(PCOMA);
   }
 
-  static final public void cicloFor() throws ParseException {
-    jj_consume_token(FOR);
+  static final public void cicloWhile() throws ParseException {
+    jj_consume_token(WHILE);
     jj_consume_token(PARENTA);
-    if (jj_2_3(2)) {
-      tipoDato();
-      inicializar();
-    } else {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case IDENTIFICADOR:
-        inicializar();
-        break;
-      default:
-        jj_la1[20] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
-    jj_consume_token(PCOMA);
     expresionLogica();
-    jj_consume_token(PCOMA);
-    incrementos();
     jj_consume_token(PARENTC);
     jj_consume_token(LLAVEA);
     label_9:
@@ -756,8 +786,57 @@ public class lexico implements lexicoConstants {
         ;
         break;
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[26] = jj_gen;
         break label_9;
+      }
+      bloque();
+    }
+    jj_consume_token(LLAVEC);
+  }
+
+  static final public void cicloFor() throws ParseException {
+    jj_consume_token(FOR);
+    jj_consume_token(PARENTA);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case INT:
+    case FLOAT:
+    case BOOLEAN:
+    case CHAR:
+    case STR:
+      tipoDato();
+      break;
+    default:
+      jj_la1[27] = jj_gen;
+      ;
+    }
+    inicializar();
+    jj_consume_token(PCOMA);
+    expresionLogica();
+    jj_consume_token(PCOMA);
+    incrementos();
+    jj_consume_token(PARENTC);
+    jj_consume_token(LLAVEA);
+    label_10:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case CONSTANTE:
+      case INPUT:
+      case PRINT:
+      case IF:
+      case WHILE:
+      case DO:
+      case FOR:
+      case INT:
+      case FLOAT:
+      case BOOLEAN:
+      case CHAR:
+      case STR:
+      case IDENTIFICADOR:
+        ;
+        break;
+      default:
+        jj_la1[28] = jj_gen;
+        break label_10;
       }
       bloque();
     }
@@ -767,23 +846,7 @@ public class lexico implements lexicoConstants {
   static final public void inicializar() throws ParseException {
     jj_consume_token(IDENTIFICADOR);
     jj_consume_token(ASIGNACION);
-    valorDato();
-    label_10:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case RESTA:
-      case SUMA:
-      case MULTIPLICACION:
-      case DIVISION:
-        ;
-        break;
-      default:
-        jj_la1[22] = jj_gen;
-        break label_10;
-      }
-      operadores();
-      valorDato();
-    }
+    operacion();
     label_11:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -791,7 +854,7 @@ public class lexico implements lexicoConstants {
         ;
         break;
       default:
-        jj_la1[23] = jj_gen;
+        jj_la1[29] = jj_gen;
         break label_11;
       }
       jj_consume_token(COMA);
@@ -802,151 +865,20 @@ public class lexico implements lexicoConstants {
   static final public void incrementos() throws ParseException {
     jj_consume_token(IDENTIFICADOR);
     jj_consume_token(ASIGNACION);
-    valorDato();
+    operacion();
     label_12:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case RESTA:
-      case SUMA:
-      case MULTIPLICACION:
-      case DIVISION:
-        ;
-        break;
-      default:
-        jj_la1[24] = jj_gen;
-        break label_12;
-      }
-      operadores();
-      valorDato();
-    }
-    label_13:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMA:
         ;
         break;
       default:
-        jj_la1[25] = jj_gen;
-        break label_13;
+        jj_la1[30] = jj_gen;
+        break label_12;
       }
       jj_consume_token(COMA);
       incrementos();
     }
-  }
-
-  static private boolean jj_2_1(int xla) {
-    jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_1(); }
-    catch(LookaheadSuccess ls) { return true; }
-    finally { jj_save(0, xla); }
-  }
-
-  static private boolean jj_2_2(int xla) {
-    jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_2(); }
-    catch(LookaheadSuccess ls) { return true; }
-    finally { jj_save(1, xla); }
-  }
-
-  static private boolean jj_2_3(int xla) {
-    jj_la = xla; jj_lastpos = jj_scanpos = token;
-    try { return !jj_3_3(); }
-    catch(LookaheadSuccess ls) { return true; }
-    finally { jj_save(2, xla); }
-  }
-
-  static private boolean jj_3R_17() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(35)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(36)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(37)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(38)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(39)) return true;
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3R_18() {
-    if (jj_scan_token(IDENTIFICADOR)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2() {
-    if (jj_3R_15()) return true;
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_3() {
-    if (jj_3R_17()) return true;
-    if (jj_3R_18()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_14() {
-    if (jj_scan_token(ELSE)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_15() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(40)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(41)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(43)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(13)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(14)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(42)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(44)) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3_1() {
-    if (jj_scan_token(LLAVEC)) return true;
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_16() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(20)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(21)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(24)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(22)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(23)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(25)) return true;
-    }
-    }
-    }
-    }
-    }
-    return false;
   }
 
   static private boolean jj_initialized_once = false;
@@ -958,10 +890,8 @@ public class lexico implements lexicoConstants {
   /** Next token. */
   static public Token jj_nt;
   static private int jj_ntk;
-  static private Token jj_scanpos, jj_lastpos;
-  static private int jj_la;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[26];
+  static final private int[] jj_la1 = new int[31];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -969,14 +899,11 @@ public class lexico implements lexicoConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xfffffffe,0xfffffffe,0x3bc,0x3bc,0x1c,0x4,0x0,0x6000,0xf0000,0xf0000,0x3f00000,0x3bc,0x20000000,0x3bc,0xc00,0x1000,0xc00,0x380,0x3bc,0x3bc,0x0,0x3bc,0xf0000,0x40000000,0xf0000,0x40000000,};
+      jj_la1_0 = new int[] {0xfffffffe,0xfffffffe,0x3bc,0x3bc,0x1c,0x4,0x40000000,0x8000,0x8000,0x0,0xf0000,0x0,0x10000,0x0,0x6000,0x0,0xf0000,0x3f00000,0x3bc,0x40,0x3bc,0xc00,0x17000,0xc00,0x380,0x3bc,0x3bc,0x0,0x3bc,0x40000000,0x40000000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x1fff,0x1fff,0x10f8,0x10f8,0x10f8,0xf8,0xf8,0x1f00,0x0,0x0,0x0,0x10f8,0x0,0x10f8,0x0,0x1000,0x0,0x0,0x10f8,0x10f8,0x1000,0x10f8,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new int[] {0x7fff,0x7fff,0x43e0,0x43e0,0x43e0,0x3e0,0x0,0x0,0x0,0x8,0x0,0x3e0,0x0,0x8,0x7c00,0x8,0x0,0x0,0x43e0,0x0,0x43e0,0x0,0x7c00,0x0,0x0,0x43e0,0x43e0,0x3e0,0x43e0,0x0,0x0,};
    }
-  static final private JJCalls[] jj_2_rtns = new JJCalls[3];
-  static private boolean jj_rescan = false;
-  static private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public lexico(java.io.InputStream stream) {
@@ -996,8 +923,7 @@ public class lexico implements lexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 31; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1011,8 +937,7 @@ public class lexico implements lexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 31; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -1029,8 +954,7 @@ public class lexico implements lexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 31; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1040,8 +964,7 @@ public class lexico implements lexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 31; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -1057,8 +980,7 @@ public class lexico implements lexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 31; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -1067,8 +989,7 @@ public class lexico implements lexicoConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 26; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 31; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -1078,44 +999,11 @@ public class lexico implements lexicoConstants {
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
-      if (++jj_gc > 100) {
-        jj_gc = 0;
-        for (int i = 0; i < jj_2_rtns.length; i++) {
-          JJCalls c = jj_2_rtns[i];
-          while (c != null) {
-            if (c.gen < jj_gen) c.first = null;
-            c = c.next;
-          }
-        }
-      }
       return token;
     }
     token = oldToken;
     jj_kind = kind;
     throw generateParseException();
-  }
-
-  static private final class LookaheadSuccess extends java.lang.Error { }
-  static final private LookaheadSuccess jj_ls = new LookaheadSuccess();
-  static private boolean jj_scan_token(int kind) {
-    if (jj_scanpos == jj_lastpos) {
-      jj_la--;
-      if (jj_scanpos.next == null) {
-        jj_lastpos = jj_scanpos = jj_scanpos.next = token_source.getNextToken();
-      } else {
-        jj_lastpos = jj_scanpos = jj_scanpos.next;
-      }
-    } else {
-      jj_scanpos = jj_scanpos.next;
-    }
-    if (jj_rescan) {
-      int i = 0; Token tok = token;
-      while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
-      if (tok != null) jj_add_error_token(kind, i);
-    }
-    if (jj_scanpos.kind != kind) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
-    return false;
   }
 
 
@@ -1148,43 +1036,16 @@ public class lexico implements lexicoConstants {
   static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
   static private int[] jj_expentry;
   static private int jj_kind = -1;
-  static private int[] jj_lasttokens = new int[100];
-  static private int jj_endpos;
-
-  static private void jj_add_error_token(int kind, int pos) {
-    if (pos >= 100) return;
-    if (pos == jj_endpos + 1) {
-      jj_lasttokens[jj_endpos++] = kind;
-    } else if (jj_endpos != 0) {
-      jj_expentry = new int[jj_endpos];
-      for (int i = 0; i < jj_endpos; i++) {
-        jj_expentry[i] = jj_lasttokens[i];
-      }
-      jj_entries_loop: for (java.util.Iterator<?> it = jj_expentries.iterator(); it.hasNext();) {
-        int[] oldentry = (int[])(it.next());
-        if (oldentry.length == jj_expentry.length) {
-          for (int i = 0; i < jj_expentry.length; i++) {
-            if (oldentry[i] != jj_expentry[i]) {
-              continue jj_entries_loop;
-            }
-          }
-          jj_expentries.add(jj_expentry);
-          break jj_entries_loop;
-        }
-      }
-      if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
-    }
-  }
 
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[50];
+    boolean[] la1tokens = new boolean[52];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 31; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1196,16 +1057,13 @@ public class lexico implements lexicoConstants {
         }
       }
     }
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 52; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
         jj_expentries.add(jj_expentry);
       }
     }
-    jj_endpos = 0;
-    jj_rescan_token();
-    jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
       exptokseq[i] = jj_expentries.get(i);
@@ -1219,43 +1077,6 @@ public class lexico implements lexicoConstants {
 
   /** Disable tracing. */
   static final public void disable_tracing() {
-  }
-
-  static private void jj_rescan_token() {
-    jj_rescan = true;
-    for (int i = 0; i < 3; i++) {
-    try {
-      JJCalls p = jj_2_rtns[i];
-      do {
-        if (p.gen > jj_gen) {
-          jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
-          switch (i) {
-            case 0: jj_3_1(); break;
-            case 1: jj_3_2(); break;
-            case 2: jj_3_3(); break;
-          }
-        }
-        p = p.next;
-      } while (p != null);
-      } catch(LookaheadSuccess ls) { }
-    }
-    jj_rescan = false;
-  }
-
-  static private void jj_save(int index, int xla) {
-    JJCalls p = jj_2_rtns[index];
-    while (p.gen > jj_gen) {
-      if (p.next == null) { p = p.next = new JJCalls(); break; }
-      p = p.next;
-    }
-    p.gen = jj_gen + xla - jj_la; p.first = token; p.arg = xla;
-  }
-
-  static final class JJCalls {
-    int gen;
-    Token first;
-    int arg;
-    JJCalls next;
   }
 
 }

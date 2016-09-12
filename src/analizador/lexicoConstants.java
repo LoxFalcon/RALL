@@ -79,25 +79,29 @@ public interface lexicoConstants {
   /** RegularExpression Id. */
   int SCOMA = 34;
   /** RegularExpression Id. */
-  int INT = 35;
+  int DCORCHETE = 35;
   /** RegularExpression Id. */
-  int FLOAT = 36;
+  int SCORCHETE = 36;
   /** RegularExpression Id. */
-  int BOOLEAN = 37;
+  int INT = 37;
   /** RegularExpression Id. */
-  int CHAR = 38;
+  int FLOAT = 38;
   /** RegularExpression Id. */
-  int STR = 39;
+  int BOOLEAN = 39;
   /** RegularExpression Id. */
-  int NUMERO = 40;
+  int CHAR = 40;
   /** RegularExpression Id. */
-  int DECIMAL = 41;
+  int STR = 41;
   /** RegularExpression Id. */
-  int CADENA = 42;
+  int NUMERO = 42;
   /** RegularExpression Id. */
-  int CARACTER = 43;
+  int DECIMAL = 43;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 44;
+  int CADENA = 44;
+  /** RegularExpression Id. */
+  int CARACTER = 45;
+  /** RegularExpression Id. */
+  int IDENTIFICADOR = 46;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -139,6 +143,8 @@ public interface lexicoConstants {
     "\";\"",
     "\"\\\"\"",
     "\"\\\'\"",
+    "\"[\"",
+    "\"]\"",
     "\"int\"",
     "\"float\"",
     "\"boolean\"",
