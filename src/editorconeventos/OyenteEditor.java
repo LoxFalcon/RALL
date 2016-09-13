@@ -34,9 +34,9 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
                 if (confirmarGuardado()) {
                     panel.limpiarPantalla();
                     ventana.setTitle("Nuevo documento - " + ventana.getTitulo());
+                    archivoActual = null;
+                    cambioDocumento = false;
                 }
-                archivoActual = null;
-                cambioDocumento = false;
                 break;
             case "abrir":
                 abrirArchivo();
