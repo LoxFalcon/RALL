@@ -26,7 +26,7 @@ public class Consola extends OutputStream {
     public Consola(JTextArea area) throws IOException {
         this.textArea = area;
         PipedInputStream in = new PipedInputStream(out);
-        reader = new InputStreamReader(in, "UTF-8");
+        reader = new InputStreamReader(in, "UTF-16");
     }
 
     @Override
