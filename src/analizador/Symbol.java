@@ -25,6 +25,14 @@ public class Symbol {
     public Integer getType() {
         return type;
     }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
     
     
 }
