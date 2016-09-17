@@ -13,6 +13,7 @@ import javax.swing.*;
  * @author Arturo
  */
 public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementar los eventos
+    private lexico lex;
     private boolean claseIniciada = false;
     private final TextLineNumber numerador;
 
@@ -96,6 +97,7 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
                 lexico.iniciarAnalisisLexico();
             } else {
                 claseIniciada = true;
+                lex = new lexico(ini);
                 lexico.iniciarAnalisisLexico();
 
             }
@@ -119,6 +121,7 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
                 lexico.iniciarAnalisisSintactico();
             } else {
                 claseIniciada = true;
+                lex = new lexico(ini);
                 lexico.iniciarAnalisisSintactico();
 
             }
@@ -162,7 +165,6 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
         try {
             areaTexto.setCaretPosition(areaTexto.getLineStartOffset(fila - 1) + columna - 1);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
