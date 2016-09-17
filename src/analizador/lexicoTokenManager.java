@@ -939,11 +939,11 @@ static void TokenLexicalActions(Token matchedToken)
          break;
       case 44 :
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                                                                             if(lexico.bandera)System.out.println("Cadena de caracteres: " + image);
+                                                                                                              if(lexico.bandera)System.out.println("Cadena de caracteres: " + image);
          break;
       case 45 :
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                                if(lexico.bandera)System.out.println("Caracter: " + image);
+                                                                 if(lexico.bandera)System.out.println("Caracter: " + image);
          break;
       case 46 :
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));

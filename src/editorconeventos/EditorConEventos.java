@@ -24,7 +24,7 @@ public class EditorConEventos {
         // TODO code application logic here
         VentanaEditor f = new VentanaEditor();
         PanelEditor p = new PanelEditor();
-        PrintStream out = new PrintStream(new Consola(p.getAreaConsola()), true, "UTF-16");
+        PrintStream out = new PrintStream(new Consola(p.getAreaConsola()), true, "UTF-8");
         System.setOut(out);
         OyenteEditor oyente = new OyenteEditor(p, f);
         f.setSize(800, 600);
