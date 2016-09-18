@@ -18,6 +18,13 @@ public class test {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        SymbolsTable tabla = new SymbolsTable();
+        tabla.insert(10, "a");
+        tabla.insert(10, "b");
+        tabla.insert("x");
+        System.out.println(tabla.getSymbols().length);
+        System.out.println(tabla.contains("a"));
+        tabla.showTable();
     }
     
 }

@@ -32,13 +32,27 @@ public class SymbolsTable implements lexicoConstants{
     public Symbol search(String name) {
         return (Symbol) (table.get(name));
     }
+    
+    public boolean contains(String value){
+        return !(search(value) == null);
+    }
+    
+    public Symbol[] getSymbols(){
+        Object[] tableValues = table.values().toArray();
+        int valuesLenght = tableValues.length;
+        Symbol[] symbols = new Symbol[valuesLenght];
+        for(int i = 0;i < valuesLenght;i++){
+            symbols[i] = (Symbol) tableValues[i];
+        }
+        return symbols;
+    }
 
     public void showTable() {
         Object[] symbols = table.values().toArray();
         System.out.println("-Symbols Table-");
         for (Object symbol : symbols) {
             Symbol sym = (Symbol) symbol;
-            System.out.println("Type: " + sym.getType() + "Value: " + sym.getValue());
+            System.out.println("Type: " + sym.getType() + " Value: " + sym.getValue());
         }
     }
 }
