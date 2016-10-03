@@ -1,6 +1,7 @@
 package editorconeventos;
 
 import analizador.ParseException;
+import analizador.SemanticException;
 import analizador.TokenMgrError;
 import analizador.lexico;
 import java.io.ByteArrayInputStream;
@@ -114,7 +115,7 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
     public void analisisSintactico() {
         String in = areaTexto.getText();
         try {
-            System.out.println("-Análisis sintáctico iniciado-");
+            System.out.println("-Análisis sintáctico - semántico iniciado-");
             InputStream ini = new ByteArrayInputStream(in.getBytes(StandardCharsets.UTF_8));
             if (claseIniciada) {
                 lexico.ReInit(ini);
@@ -125,12 +126,16 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
                 lexico.iniciarAnalisisSintactico();
 
             }
-            JOptionPane.showMessageDialog(this, "Analisis sintáctico terminado");
-            System.out.println("-Analisis sintáctico terminado sin errores-");
+            JOptionPane.showMessageDialog(this, "Analisis sintáctico - semántico terminado");
+            System.out.println("-Analisis sintáctico - semántico terminado sin errores-");
         } catch (TokenMgrError | ParseException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             moverCursor(ex.getMessage());
-            System.out.println("-Análisis sintáctico terminado con errores-");
+            System.out.println("-Análisis sintáctico - semántico terminado con errores-");
+        }
+        catch(SemanticException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("-Análisis sintáctico - semántico terminado con errores-");
         }
     }
 

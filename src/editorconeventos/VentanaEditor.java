@@ -153,7 +153,7 @@ public class VentanaEditor extends javax.swing.JFrame {
         menuAnalizar.add(opcionAnalisisLexico);
 
         opcionAnalisisSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/vista.png"))); // NOI18N
-        opcionAnalisisSintactico.setText("Análisis Sintáctico");
+        opcionAnalisisSintactico.setText("Análisis Sintáctico - Semántico");
         opcionAnalisisSintactico.setName("sintactico"); // NOI18N
         menuAnalizar.add(opcionAnalisisSintactico);
 

@@ -12,6 +12,8 @@ package analizador;
 public class Symbol {
     private String value;
     private Integer type;
+	private Integer size;
+	private Integer info;
     
     public Symbol(Integer type, String value){
         this.value = value;
@@ -33,6 +35,22 @@ public class Symbol {
     public void setType(Integer type) {
         this.type = type;
     }
+	
+	public void setSize(Integer size){
+		this.size = size;
+	}
+	
+	public Integer getSize(){
+		return size;
+	}
+	
+	public void setInfo(Integer info){
+		this.info = info;
+	}
+	
+	public Integer getInfo(){
+		return info;
+	}
     
     
 }

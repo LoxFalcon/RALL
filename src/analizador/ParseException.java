@@ -103,7 +103,7 @@ public class ParseException extends Exception {
       }
       expected.append(eol).append("    ");
     }
-    String retval = "Encountered \"";
+    String retval = "Encontrado \"";
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
       if (i != 0) retval += " ";
@@ -117,12 +117,12 @@ public class ParseException extends Exception {
       retval += " \"";
       tok = tok.next;
     }
-    retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn;
+    retval += "\" en la linea " + currentToken.next.beginLine + ", columna " + currentToken.next.beginColumn;
     retval += "." + eol;
     if (expectedTokenSequences.length == 1) {
-      retval += "Was expecting:" + eol + "    ";
+      retval += "Se esperaba:" + eol + "    ";
     } else {
-      retval += "Was expecting one of:" + eol + "    ";
+      retval += "Se esperaba un:" + eol + "    ";
     }
     retval += expected.toString();
     return retval;

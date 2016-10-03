@@ -23,11 +23,10 @@ public class SymbolsTable implements lexicoConstants{
         Symbol s = new Symbol(0, value);
         table.put(value, s);
     }
-
-    public void insert(Integer type, String value){
-        Symbol s = new Symbol(type, value);
-        table.put(value, s);
-    }
+	
+	public void insert(String key, Symbol symbol){
+		table.put(key, symbol);
+	}
 
     public Symbol search(String name) {
         return (Symbol) (table.get(name));
