@@ -6,6 +6,7 @@
 
 package editorconeventos;
 
+import analizador.GeneradorCodigoIntermedio;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -25,6 +26,8 @@ public class EditorConEventos {
         VentanaEditor f = new VentanaEditor();
         PanelEditor p = new PanelEditor();
         PrintStream out = new PrintStream(new Consola(p.getAreaConsola()), true, "UTF-8");
+        GeneradorCodigoIntermedio gen = new GeneradorCodigoIntermedio();
+        //gen.expresion("a + 5 * 10 - 3 / 4 * b");        
         System.setOut(out);
         OyenteEditor oyente = new OyenteEditor(p, f);
         f.setSize(800, 600);

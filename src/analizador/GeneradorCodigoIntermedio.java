@@ -1,5 +1,7 @@
 package analizador;
 import static analizador.lexicoConstants.*;
+import java.util.ArrayList;
+import java.util.Stack;
 /*
 String declarcion;
 string cuerpo;
@@ -99,22 +101,78 @@ public class GeneradorCodigoIntermedio {
         sb.append(identificador).append(' ');
         switch(tipoDato){
             case INT:
-                sb.append("dd "); //4 bytes
+                sb.append("dd 0"); //4 bytes
                 break;
             case FLOAT:
-                sb.append("dq "); //8 bytes
+                sb.append("dq 0"); //8 bytes
                 break;
             case STR:
-               // sb
+                sb.append("resb 255");
                 break;
             case BOOLEAN:
-                break;
             case CHAR:
-                break;                     
-                   
+                sb.append("db 0");
+                break;                  
         }
+        sb.append('\n');
+        declaraciones.append(sb);
+        if(expresion!=null && expresion.length()>0) asignacion(identificador, tipoDato, expresion);
     }
-    public void asignacion(String identificador, String expresion){
-        
-    }           
+    public void asignacion(String identificador, int tipoDato, String expresion){
+        expresion(expresion);
+        instrucciones.append("mov [").append(identificador).append("], eax\n");
+    }    
+    public static int[] prioridad = {1,1,2,2};
+    public static String operador = "+-*/";
+    public static int ARREGLO = 47;
+    public static int OPERADOR = 48; //Cuidar que no sea uno de lexicoConstants
+    
+    /* Retorna un int con el tipo de token que está en value*/
+    private int identificarToken(String value){
+        System.out.println("me trabé");
+        boolean decimal = value.matches("\\d*\\.\\d*");
+        if(decimal) return DECIMAL;
+        boolean entero = value.matches("\\d+");
+        if(entero) return NUMERO;
+        String regexVar = "[a-zA-Z]([a-z]|[A-Z]|[0-9]|[_])*";
+        boolean variable = value.matches(regexVar);
+        if(variable) return IDENTIFICADOR;
+        boolean arreglo = value.matches(regexVar+"\\[.\\]");
+        if(arreglo) return ARREGLO;
+        System.out.println("me trabé2");
+        return OPERADOR;
+    }
+    public void expresion(String expresion){
+        //Shunting-yard algorithm
+        String s[] = expresion.split(" ");
+        Stack<String> operadores = new Stack<>();
+        StringBuilder RPN = new StringBuilder();
+        for(int i=0;i<s.length;i++){
+            System.out.println("Analizando: \""+s[i]+"\"");
+            int id = identificarToken(s[i]);
+            System.out.println("ID: "+id);
+            if(id==OPERADOR){
+                int ind = prioridad[operador.indexOf(s[i])];                
+                while(!operadores.empty()){
+                    String tmp = operadores.peek();
+                    int ind2 = prioridad[operador.indexOf(tmp)];
+                    if(ind<=ind2){
+                        if(RPN.length()>0) RPN.append(' ');
+                        RPN.append(tmp);
+                        operadores.pop();
+                    }else{
+                        break;
+                    }
+                }
+                operadores.push(s[i]);                
+            }else{
+                if(RPN.length()>0) RPN.append(' ');
+                RPN.append(s[i]);
+            }
+        }
+        while(!operadores.empty()){
+            RPN.append(' ').append(operadores.pop());
+        }
+        System.out.println("RPN: "+RPN.toString());
+    }
 }
