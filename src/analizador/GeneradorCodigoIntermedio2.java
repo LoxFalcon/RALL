@@ -10,10 +10,7 @@ string funciones;
 String res = Generador.buildCode();
 .asm
 System.executeCmd("nasm -f tmp.asm -o tmp.exe");
-s.push(a+d.pop()-e.get(i)-z[x[y]*w[j]])
-push(s,a+pop(d)-get(e,i)-z[x[y]*w[j]]);
-<IDENTIFICADOR_STACK><.><PUSH><(>operacion()<)> pop(x)+pop(x)
-"push(IDENTIFICADOR_STACK, );
+
 
 .MODEL 386
 .STACK 300h
@@ -90,12 +87,12 @@ a[i] <-
 
 cmp ax, bx
 */
-public class GeneradorCodigoIntermedio {
+public class GeneradorCodigoIntermedio2 {
     private StringBuilder declaraciones;
     private StringBuilder instrucciones;
     private StringBuilder funciones;
     
-    public GeneradorCodigoIntermedio(){
+    public GeneradorCodigoIntermedio2(){
         declaraciones = new StringBuilder();
         instrucciones = new StringBuilder();
         funciones = new StringBuilder();
@@ -113,6 +110,10 @@ public class GeneradorCodigoIntermedio {
             case STR:
                 sb.append("resb 255");
                 break;
+            case BOOLEAN:
+            case CHAR:
+                sb.append("db 0");
+                break;                  
         }
         sb.append('\n');
         declaraciones.append(sb);
@@ -128,9 +129,8 @@ public class GeneradorCodigoIntermedio {
     public static int OPERADOR = 48; //Cuidar que no sea uno de lexicoConstants
     
     /* Retorna un int con el tipo de token que está en value*/
-    private int identificarToken(String value){        
-        if(value.equals("(")) return PARENTA;
-        if(value.equals(")")) return PARENTC;
+    private int identificarToken(String value){
+        System.out.println("me trabé");
         boolean decimal = value.matches("\\d*\\.\\d*");
         if(decimal) return DECIMAL;
         boolean entero = value.matches("\\d+");
@@ -138,91 +138,42 @@ public class GeneradorCodigoIntermedio {
         String regexVar = "[a-zA-Z]([a-z]|[A-Z]|[0-9]|[_])*";
         boolean variable = value.matches(regexVar);
         if(variable) return IDENTIFICADOR;
+        boolean arreglo = value.matches(regexVar+"\\[.\\]");
+        if(arreglo) return ARREGLO;
+        System.out.println("me trabé2");
         return OPERADOR;
     }
-    
-    //Método que va a dejarme el resultado en el registro EAX
-    
     public void expresion(String expresion){
-        ArrayList<String> conv = convertirExpresion(expresion);
-        for (int i = 0; i < conv.size(); i++) {
-            
-        }
-    }
-    /*
-        
-        Stack<int> s(100);
-        struct ListInt{
-        };
-        struct StackInt{
-            int* datos;
-            int tope;
-            int capacidad;
-        };
-        struct StackChar{
-            char* datos;
-            int tope;
-            int capacidad;
-        }
-        int a(){}
-        int main(){
-            int b(){}
-        }
-        StackInt s;
-        s->datos = (int*)malloc(100*sizeof(int));
-        s->capacidad = 100;
-        s->tope = -1;
-        int popInt(int s*){
-        }
-        char popChar(char s*){
-        }
-        float popFloat(float s*){
-        }
-        Stack<int> s(100);
-        Lista<int> l;
-    */
-    ArrayList<String> convertirExpresion(String expresion){
         //Shunting-yard algorithm
-        
         String s[] = expresion.split(" ");
         Stack<String> operadores = new Stack<>();
-        ArrayList<String> RPN = new ArrayList<>();
+        StringBuilder RPN = new StringBuilder();
         for(int i=0;i<s.length;i++){
-            int id = identificarToken(s[i]); 
-            if(id==OPERADOR){                  
+            System.out.println("Analizando: \""+s[i]+"\"");
+            int id = identificarToken(s[i]);
+            System.out.println("ID: "+id);
+            if(id==OPERADOR){
                 int ind = prioridad[operador.indexOf(s[i])];                
                 while(!operadores.empty()){
                     String tmp = operadores.peek();
-                    int idTmp = identificarToken(tmp);
-                    if(idTmp==OPERADOR){
-                        int ind2 = prioridad[operador.indexOf(tmp)];
-                        if(ind<=ind2){
-                            RPN.add(tmp);
-                            operadores.pop();
-                        }else{
-                            break;
-                        }
-                    }else break;
-                }
-                operadores.push(s[i]);                
-            }else if(id==NUMERO || id == DECIMAL || id == IDENTIFICADOR){
-                RPN.add(s[i]);
-            }else if(id==PARENTA){
-                operadores.push(s[i]);
-            }else if(id==PARENTC){
-                while(!operadores.empty()){
-                    String tmp = operadores.pop();
-                    int idTmp = identificarToken(tmp);
-                    if(idTmp==PARENTA) break;
-                    else{
-                        RPN.add(tmp);
+                    int ind2 = prioridad[operador.indexOf(tmp)];
+                    if(ind<=ind2){
+                        if(RPN.length()>0) RPN.append(' ');
+                        RPN.append(tmp);
+                        operadores.pop();
+                    }else{
+                        break;
                     }
                 }
+                operadores.push(s[i]);                
+            }else{
+                if(RPN.length()>0) RPN.append(' ');
+                RPN.append(s[i]);
             }
         }
         while(!operadores.empty()){
-            RPN.add(operadores.pop());
+            RPN.append(' ').append(operadores.pop());
         }
-        return RPN;
+        System.out.println("RPN: "+RPN.toString());
     }
 }
