@@ -100,6 +100,10 @@ public class GeneradorCodigoIntermedio {
         instrucciones = new StringBuilder();
         funciones = new StringBuilder();
     }    
+    public void printCode(){
+        System.out.println(declaraciones.toString());
+        System.out.println(instrucciones.toString());
+    }
     public void declaracion(String identificador, int tipoDato, String expresion){
         StringBuilder sb = new StringBuilder();
         sb.append(identificador).append(' ');
@@ -122,10 +126,10 @@ public class GeneradorCodigoIntermedio {
         expresion(expresion);
         instrucciones.append("mov [").append(identificador).append("], eax\n");
     }    
-    public static int[] prioridad = {1,1,2,2};
-    public static String operador = "+-*/";
-    public static int ARREGLO = 47;
-    public static int OPERADOR = 48; //Cuidar que no sea uno de lexicoConstants
+    public final static int[] prioridad = {1,1,2,2};
+    public final static String operador = "+-*/";
+    public final static int ARREGLO = 47;
+    public final static int OPERADOR = 48; //Cuidar que no sea uno de lexicoConstants
     
     /* Retorna un int con el tipo de token que está en value*/
     private int identificarToken(String value){        
@@ -144,10 +148,40 @@ public class GeneradorCodigoIntermedio {
     //Método que va a dejarme el resultado en el registro EAX
     
     public void expresion(String expresion){
-        ArrayList<String> conv = convertirExpresion(expresion);
+        ArrayList<TokenExpresion> conv = convertirExpresion(expresion);
         for (int i = 0; i < conv.size(); i++) {
-            
+            TokenExpresion tmp = conv.get(i);
+            switch(tmp.getType()){
+                case OPERADOR:
+                    int operacion = operador.indexOf(tmp.getValue());
+                    instrucciones.append("pop ebx\n");
+                    instrucciones.append("pop eax\n");  
+                    switch(operacion){
+                        case 0: //Suma
+                            instrucciones.append("add eax ebx\n");
+                            break;
+                        case 1: //Resta                                              
+                            instrucciones.append("sub eax ebx\n");
+                            break;
+                        case 2: //Multiplicación
+                            instrucciones.append("mul ebx\n");
+                            break;
+                        case 3: //División
+                            instrucciones.append("div ebx\n");
+                            break;
+                    }
+                    instrucciones.append("push eax\n");
+                    break;
+                case NUMERO:
+                case DECIMAL:
+                    instrucciones.append("push ").append(tmp.getValue()).append('\n');
+                    break;
+                case IDENTIFICADOR:
+                    instrucciones.append("push [").append(tmp.getValue()).append("]\n");
+                    break;
+            }
         }
+        instrucciones.append("pop eax\n");
     }
     /*
         
@@ -181,12 +215,12 @@ public class GeneradorCodigoIntermedio {
         Stack<int> s(100);
         Lista<int> l;
     */
-    ArrayList<String> convertirExpresion(String expresion){
+    ArrayList<TokenExpresion> convertirExpresion(String expresion){
         //Shunting-yard algorithm
         
         String s[] = expresion.split(" ");
         Stack<String> operadores = new Stack<>();
-        ArrayList<String> RPN = new ArrayList<>();
+        ArrayList<TokenExpresion> RPN = new ArrayList<>();
         for(int i=0;i<s.length;i++){
             int id = identificarToken(s[i]); 
             if(id==OPERADOR){                  
@@ -197,7 +231,7 @@ public class GeneradorCodigoIntermedio {
                     if(idTmp==OPERADOR){
                         int ind2 = prioridad[operador.indexOf(tmp)];
                         if(ind<=ind2){
-                            RPN.add(tmp);
+                            RPN.add(new TokenExpresion(tmp,OPERADOR));
                             operadores.pop();
                         }else{
                             break;
@@ -206,7 +240,7 @@ public class GeneradorCodigoIntermedio {
                 }
                 operadores.push(s[i]);                
             }else if(id==NUMERO || id == DECIMAL || id == IDENTIFICADOR){
-                RPN.add(s[i]);
+                RPN.add(new TokenExpresion(s[i],id));
             }else if(id==PARENTA){
                 operadores.push(s[i]);
             }else if(id==PARENTC){
@@ -215,14 +249,33 @@ public class GeneradorCodigoIntermedio {
                     int idTmp = identificarToken(tmp);
                     if(idTmp==PARENTA) break;
                     else{
-                        RPN.add(tmp);
+                        RPN.add(new TokenExpresion(tmp, idTmp));
                     }
                 }
             }
         }
         while(!operadores.empty()){
-            RPN.add(operadores.pop());
+            String tok = operadores.pop();
+            int id = identificarToken(tok);
+            RPN.add(new TokenExpresion(tok, id));
         }
         return RPN;
+    }
+    class TokenExpresion{
+        private final String value;
+        private final int type;
+
+        public TokenExpresion(String value, int type) {
+            this.value = value;
+            this.type = type;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public int getType() {
+            return type;
+        }
     }
 }
