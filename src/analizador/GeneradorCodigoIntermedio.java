@@ -100,9 +100,36 @@ public class GeneradorCodigoIntermedio {
         instrucciones = new StringBuilder();
         funciones = new StringBuilder();
     }    
-    public void printCode(){
+    public void resetCode(){
+        declaraciones.setLength(0);
+        instrucciones.setLength(0);
+        funciones.setLength(0);
+    }
+    
+    /* Método que genera todo el código y lo guarda en un archivo llamado: tmp.asm */
+    public void generateCode(){
         System.out.println(declaraciones.toString());
         System.out.println(instrucciones.toString());
+    }
+    
+    public void print(String contenido, int tipo){
+        int id = identificarToken(contenido);
+        if(id==IDENTIFICADOR){
+            if(tipo == INT){
+                
+            }else{ //FLOAT
+                
+            }
+        }else{
+            if(tipo == INT){
+                
+            }else{ //FLOAT
+                
+            }
+        }
+    }
+    public void println(){
+        //sb.append()
     }
     public void declaracion(String identificador, int tipoDato, String expresion){
         StringBuilder sb = new StringBuilder();
