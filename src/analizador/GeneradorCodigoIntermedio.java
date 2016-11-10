@@ -169,7 +169,7 @@ public class GeneradorCodigoIntermedio {
                 sb.append("dd 0"); //4 bytes
                 break;
             case FLOAT:
-                sb.append("dd 0"); //4 bytes
+                sb.append("dq 0"); //4 bytes
                 break;
             case STR:
                 sb.append("resb 255");
