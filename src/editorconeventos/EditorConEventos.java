@@ -27,7 +27,10 @@ public class EditorConEventos {
         PanelEditor p = new PanelEditor();
         PrintStream out = new PrintStream(new Consola(p.getAreaConsola()), true, "UTF-8");
         GeneradorCodigoIntermedio gen = new GeneradorCodigoIntermedio();    
-        gen.declaracion("a", 37, "( z + 5 ) * 10 / ( 5 - 3 )");
+        gen.declaracion("a", 37, "5");
+        gen.print("a", 37);
+        gen.generateCode();
+        //gen.declaracion("a", 37, "( z + 5 ) * 10 / ( 5 - 3 )");
         //gen.printCode();
         System.setOut(out);
         OyenteEditor oyente = new OyenteEditor(p, f);

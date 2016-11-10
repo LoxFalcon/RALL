@@ -1,8 +1,10 @@
-
 package analizador;
+
 import static analizador.lexicoConstants.*;
 import java.util.ArrayList;
 import java.util.Stack;
+import util.Archivo;
+
 /*
 String declarcion;
 string cuerpo;
@@ -89,57 +91,85 @@ int b = a*2;
 a[i] <-
 
 cmp ax, bx
-*/
+ */
 public class GeneradorCodigoIntermedio {
+
+    private StringBuilder encabezado;
     private StringBuilder declaraciones;
     private StringBuilder instrucciones;
     private StringBuilder funciones;
-    
-    public GeneradorCodigoIntermedio(){
+
+    public GeneradorCodigoIntermedio() {
         declaraciones = new StringBuilder();
         instrucciones = new StringBuilder();
         funciones = new StringBuilder();
-    }    
-    public void resetCode(){
+        encabezado = new StringBuilder();
+        writeHeader();
+    }
+
+    private void writeHeader() {
+        encabezado.append("extern printf\n"); //Función de C
+        encabezado.append("SECTION .data\n");
+        encabezado.append("_printInt db \"%d\",0\n");
+        encabezado.append("_printFloat db \"%f\",0\n");
+        encabezado.append("_printLine db 10,0\n");
+    }
+
+    public void resetCode() {
         declaraciones.setLength(0);
         instrucciones.setLength(0);
         funciones.setLength(0);
     }
-    
+
     /* Método que genera todo el código y lo guarda en un archivo llamado: tmp.asm */
-    public void generateCode(){
-        System.out.println(declaraciones.toString());
-        System.out.println(instrucciones.toString());
+    public void generateCode() {
+        StringBuilder code = new StringBuilder();
+        code.append(encabezado);
+        code.append(declaraciones);
+        code.append("SECTION .bss\n");
+        code.append("_float: resq 1\n");
+        code.append("SECTION .text\n");
+        code.append("global _WinMain@16\n");
+        code.append("_WinMain@16:\n");
+        code.append(instrucciones);
+        code.append("mov eax,0\n");
+        code.append("ret 16");
+        Archivo.grabarArchivo("tmp.asm", new String[]{code.toString()});
     }
-    
-    public void print(String contenido, int tipo){
-        int id = identificarToken(contenido);
-        if(id==IDENTIFICADOR){
-            if(tipo == INT){
-                
-            }else{ //FLOAT
-                
-            }
-        }else{
-            if(tipo == INT){
-                
-            }else{ //FLOAT
-                
-            }
-        }
+
+    public void print(String expresion, int tipo) {
+        expresion(expresion);
+        if (tipo == INT) {
+            instrucciones.append("push dword eax\n");
+            instrucciones.append("push dword _printInt\n");
+            instrucciones.append("call printf\n");
+            instrucciones.append("add esp, 4\n");
+        } else { //FLOAT
+            instrucciones.append("fld dword eax\n");
+            instrucciones.append("fstp qword [_float]\n");
+            instrucciones.append("push dword [_float+4]\n");
+            instrucciones.append("push dword [_float]\n");
+            instrucciones.append("push dword _printFloat\n");
+            instrucciones.append("call printf\n");
+            instrucciones.append("add esp, 8\n");
+        }        
     }
-    public void println(){
-        //sb.append()
+
+    public void println() {
+        instrucciones.append("push dword _printLine\n");
+        instrucciones.append("call printf\n");
+        instrucciones.append("add esp, 4\n");
     }
-    public void declaracion(String identificador, int tipoDato, String expresion){
+
+    public void declaracion(String identificador, int tipoDato, String expresion) {
         StringBuilder sb = new StringBuilder();
         sb.append(identificador).append(' ');
-        switch(tipoDato){
+        switch (tipoDato) {
             case INT:
                 sb.append("dd 0"); //4 bytes
                 break;
             case FLOAT:
-                sb.append("dq 0"); //8 bytes
+                sb.append("dd 0"); //4 bytes
                 break;
             case STR:
                 sb.append("resb 255");
@@ -147,43 +177,55 @@ public class GeneradorCodigoIntermedio {
         }
         sb.append('\n');
         declaraciones.append(sb);
-        if(expresion!=null && expresion.length()>0) asignacion(identificador, tipoDato, expresion);
+        if (expresion != null && expresion.length() > 0) {
+            asignacion(identificador, tipoDato, expresion);
+        }
     }
-    public void asignacion(String identificador, int tipoDato, String expresion){
+
+    public void asignacion(String identificador, int tipoDato, String expresion) {
         expresion(expresion);
         instrucciones.append("mov [").append(identificador).append("], eax\n");
-    }    
-    public final static int[] prioridad = {1,1,2,2};
+    }
+    public final static int[] prioridad = {1, 1, 2, 2};
     public final static String operador = "+-*/";
     public final static int ARREGLO = 47;
     public final static int OPERADOR = 48; //Cuidar que no sea uno de lexicoConstants
-    
+
     /* Retorna un int con el tipo de token que está en value*/
-    private int identificarToken(String value){        
-        if(value.equals("(")) return PARENTA;
-        if(value.equals(")")) return PARENTC;
+    private int identificarToken(String value) {
+        if (value.equals("(")) {
+            return PARENTA;
+        }
+        if (value.equals(")")) {
+            return PARENTC;
+        }
         boolean decimal = value.matches("\\d*\\.\\d*");
-        if(decimal) return DECIMAL;
+        if (decimal) {
+            return DECIMAL;
+        }
         boolean entero = value.matches("\\d+");
-        if(entero) return NUMERO;
+        if (entero) {
+            return NUMERO;
+        }
         String regexVar = "[a-zA-Z]([a-z]|[A-Z]|[0-9]|[_])*";
         boolean variable = value.matches(regexVar);
-        if(variable) return IDENTIFICADOR;
+        if (variable) {
+            return IDENTIFICADOR;
+        }
         return OPERADOR;
     }
-    
+
     //Método que va a dejarme el resultado en el registro EAX
-    
-    public void expresion(String expresion){
+    public void expresion(String expresion) {
         ArrayList<TokenExpresion> conv = convertirExpresion(expresion);
         for (int i = 0; i < conv.size(); i++) {
             TokenExpresion tmp = conv.get(i);
-            switch(tmp.getType()){
+            switch (tmp.getType()) {
                 case OPERADOR:
                     int operacion = operador.indexOf(tmp.getValue());
                     instrucciones.append("pop ebx\n");
-                    instrucciones.append("pop eax\n");  
-                    switch(operacion){
+                    instrucciones.append("pop eax\n");
+                    switch (operacion) {
                         case 0: //Suma
                             instrucciones.append("add eax ebx\n");
                             break;
@@ -204,12 +246,13 @@ public class GeneradorCodigoIntermedio {
                     instrucciones.append("push ").append(tmp.getValue()).append('\n');
                     break;
                 case IDENTIFICADOR:
-                    instrucciones.append("push [").append(tmp.getValue()).append("]\n");
+                    instrucciones.append("push dword [").append(tmp.getValue()).append("]\n");
                     break;
             }
         }
         instrucciones.append("pop eax\n");
     }
+
     /*
         
         Stack<int> s(100);
@@ -241,54 +284,59 @@ public class GeneradorCodigoIntermedio {
         }
         Stack<int> s(100);
         Lista<int> l;
-    */
-    ArrayList<TokenExpresion> convertirExpresion(String expresion){
+     */
+    ArrayList<TokenExpresion> convertirExpresion(String expresion) {
         //Shunting-yard algorithm
-        
+
         String s[] = expresion.split(" ");
         Stack<String> operadores = new Stack<>();
         ArrayList<TokenExpresion> RPN = new ArrayList<>();
-        for(int i=0;i<s.length;i++){
-            int id = identificarToken(s[i]); 
-            if(id==OPERADOR){                  
-                int ind = prioridad[operador.indexOf(s[i])];                
-                while(!operadores.empty()){
+        for (int i = 0; i < s.length; i++) {
+            int id = identificarToken(s[i]);
+            if (id == OPERADOR) {
+                int ind = prioridad[operador.indexOf(s[i])];
+                while (!operadores.empty()) {
                     String tmp = operadores.peek();
                     int idTmp = identificarToken(tmp);
-                    if(idTmp==OPERADOR){
+                    if (idTmp == OPERADOR) {
                         int ind2 = prioridad[operador.indexOf(tmp)];
-                        if(ind<=ind2){
-                            RPN.add(new TokenExpresion(tmp,OPERADOR));
+                        if (ind <= ind2) {
+                            RPN.add(new TokenExpresion(tmp, OPERADOR));
                             operadores.pop();
-                        }else{
+                        } else {
                             break;
                         }
-                    }else break;
+                    } else {
+                        break;
+                    }
                 }
-                operadores.push(s[i]);                
-            }else if(id==NUMERO || id == DECIMAL || id == IDENTIFICADOR){
-                RPN.add(new TokenExpresion(s[i],id));
-            }else if(id==PARENTA){
                 operadores.push(s[i]);
-            }else if(id==PARENTC){
-                while(!operadores.empty()){
+            } else if (id == NUMERO || id == DECIMAL || id == IDENTIFICADOR) {
+                RPN.add(new TokenExpresion(s[i], id));
+            } else if (id == PARENTA) {
+                operadores.push(s[i]);
+            } else if (id == PARENTC) {
+                while (!operadores.empty()) {
                     String tmp = operadores.pop();
                     int idTmp = identificarToken(tmp);
-                    if(idTmp==PARENTA) break;
-                    else{
+                    if (idTmp == PARENTA) {
+                        break;
+                    } else {
                         RPN.add(new TokenExpresion(tmp, idTmp));
                     }
                 }
             }
         }
-        while(!operadores.empty()){
+        while (!operadores.empty()) {
             String tok = operadores.pop();
             int id = identificarToken(tok);
             RPN.add(new TokenExpresion(tok, id));
         }
         return RPN;
     }
-    class TokenExpresion{
+
+    class TokenExpresion {
+
         private final String value;
         private final int type;
 
