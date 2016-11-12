@@ -51,28 +51,42 @@ public class DialogoSobre extends javax.swing.JDialog {
 
         PanelTitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         PanelTitulo.setPreferredSize(new java.awt.Dimension(400, 70));
-        PanelTitulo.setLayout(new javax.swing.BoxLayout(PanelTitulo, javax.swing.BoxLayout.LINE_AXIS));
+
+        PanelLogo.setPreferredSize(new java.awt.Dimension(66, 66));
 
         javax.swing.GroupLayout PanelLogoLayout = new javax.swing.GroupLayout(PanelLogo);
         PanelLogo.setLayout(PanelLogoLayout);
         PanelLogoLayout.setHorizontalGroup(
             PanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 66, Short.MAX_VALUE)
         );
         PanelLogoLayout.setVerticalGroup(
             PanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 66, Short.MAX_VALUE)
         );
 
-        PanelTitulo.add(PanelLogo);
-
         CampoTitulo.setEditable(false);
         CampoTitulo.setFont(new java.awt.Font("Lucida Fax", 1, 24)); // NOI18N
-        CampoTitulo.setText("RALL + IDE");
+        CampoTitulo.setText("RALL IDE");
         CampoTitulo.setBorder(null);
         CampoTitulo.setEnabled(false);
         CampoTitulo.setOpaque(false);
-        PanelTitulo.add(CampoTitulo);
+
+        javax.swing.GroupLayout PanelTituloLayout = new javax.swing.GroupLayout(PanelTitulo);
+        PanelTitulo.setLayout(PanelTituloLayout);
+        PanelTituloLayout.setHorizontalGroup(
+            PanelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTituloLayout.createSequentialGroup()
+                .addComponent(PanelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CampoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
+        );
+        PanelTituloLayout.setVerticalGroup(
+            PanelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PanelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(CampoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         getContentPane().add(PanelTitulo, java.awt.BorderLayout.NORTH);
 

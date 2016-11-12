@@ -105,11 +105,11 @@ public class TokenMgrError extends Error
    * Note: You can customize the lexical error message by modifying this method.
    */
   protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
-    return("Error lexico en la linea " +
-          errorLine + ", columna " +
-          errorColumn + ".  Encontrado: " +
+    return("Lexical error at line " +
+          errorLine + ", column " +
+          errorColumn + ".  Encountered: " +
           (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int)curChar + "), ") +
-          "despues : \"" + addEscapes(errorAfter) + "\"");
+          "after : \"" + addEscapes(errorAfter) + "\"");
   }
 
   /**

@@ -106,13 +106,13 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
             System.out.println("-Analisis léxico terminado sin errores-");
         } catch (TokenMgrError | ParseException ex) {
             moverCursor(ex.getMessage());
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error Lexico", JOptionPane.ERROR_MESSAGE);
             System.out.println("-Análisis léxico terminado con errores-");
         }
 
     }
 
-    public void analisisSintactico() {
+    public boolean analisisSintactico() {
         String in = areaTexto.getText();
         try {
             System.out.println("-Análisis sintáctico - semántico iniciado-");
@@ -128,14 +128,17 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
             }
             JOptionPane.showMessageDialog(this, "Analisis sintáctico - semántico terminado");
             System.out.println("-Analisis sintáctico - semántico terminado sin errores-");
+            return true;
         } catch (TokenMgrError | ParseException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error Sintactico", JOptionPane.ERROR_MESSAGE);
             moverCursor(ex.getMessage());
             System.out.println("-Análisis sintáctico - semántico terminado con errores-");
+            return false;
         }
         catch(SemanticException ex){
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error Semantico", JOptionPane.ERROR_MESSAGE);
             System.out.println("-Análisis sintáctico - semántico terminado con errores-");
+            return false;
         }
     }
 
@@ -143,7 +146,7 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
         String[] tokens = mensaje.split(" ");
         int fila = -1, columna = -1;
         for (int i = 0; i < tokens.length; i++) {
-            if (tokens[i].equals("line")) {
+            if (tokens[i].equals("linea")) {
                 fila = 0;
                 for (int j = 0; j < tokens[i + 1].length(); j++) {
                     if (Character.isDigit(tokens[i + 1].charAt(j))) {
@@ -155,7 +158,7 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
                 }
                 //fila = Integer.parseInt(tokens[i+1].trim());
 
-            } else if (tokens[i].equals("column")) {
+            } else if (tokens[i].equals("columna")) {
                 columna = 0;
                 for (int j = 0; j < tokens[i + 1].length(); j++) {
                     if (Character.isDigit(tokens[i + 1].charAt(j))) {

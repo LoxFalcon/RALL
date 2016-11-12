@@ -13,7 +13,15 @@ public class Symbol {
     private String value;
     private Integer type;
 	private Integer size;
-	private Integer info;
+	private Integer symbolKind = KUNKNOWN;
+	
+	public static int KVARIABLE = 1;
+	public static int KFUNCTION = 2;
+	public static int KARRAY = 3;
+	public static int KCONSTANT = 4;
+	public static int KUNKNOWN = 0;
+	public static int KSTACK = 5;
+	public static int KLIST = 6;
     
     public Symbol(Integer type, String value){
         this.value = value;
@@ -44,13 +52,12 @@ public class Symbol {
 		return size;
 	}
 	
-	public void setInfo(Integer info){
-		this.info = info;
+	public void setSymbolKind(Integer symbolKind){
+		this.symbolKind = symbolKind;
 	}
 	
-	public Integer getInfo(){
-		return info;
+	public Integer getSymbolKind(){
+		return symbolKind;
 	}
-    
     
 }

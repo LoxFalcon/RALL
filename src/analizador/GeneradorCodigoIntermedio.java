@@ -188,8 +188,8 @@ public class GeneradorCodigoIntermedio {
     }
     public final static int[] prioridad = {1, 1, 2, 2};
     public final static String operador = "+-*/";
-    public final static int ARREGLO = 47;
-    public final static int OPERADOR = 48; //Cuidar que no sea uno de lexicoConstants
+    public final static int ARREGLO = -1; /* SE CAMBIARON ESTOS DOS VALORES 47 Y 48 */
+    public final static int OPERADOR = -2; //Cuidar que no sea uno de lexicoConstants
 
     /* Retorna un int con el tipo de token que está en value*/
     private int identificarToken(String value) {

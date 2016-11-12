@@ -29,79 +29,97 @@ public interface lexicoConstants {
   /** RegularExpression Id. */
   int FOR = 9;
   /** RegularExpression Id. */
-  int OR = 10;
+  int FUNCTION = 10;
   /** RegularExpression Id. */
-  int AND = 11;
+  int LIST = 11;
   /** RegularExpression Id. */
-  int NOT = 12;
+  int ADD = 12;
   /** RegularExpression Id. */
-  int TRUE = 13;
+  int GET = 13;
   /** RegularExpression Id. */
-  int FALSE = 14;
+  int STACK = 14;
   /** RegularExpression Id. */
-  int ASIGNACION = 15;
+  int PUSH = 15;
   /** RegularExpression Id. */
-  int RESTA = 16;
+  int POP = 16;
   /** RegularExpression Id. */
-  int SUMA = 17;
+  int VOID = 17;
   /** RegularExpression Id. */
-  int MULTIPLICACION = 18;
+  int RETURN = 18;
   /** RegularExpression Id. */
-  int DIVISION = 19;
+  int OR = 19;
   /** RegularExpression Id. */
-  int MENOR = 20;
+  int AND = 20;
   /** RegularExpression Id. */
-  int MAYOR = 21;
+  int NOT = 21;
   /** RegularExpression Id. */
-  int MENORIGUAL = 22;
+  int TRUE = 22;
   /** RegularExpression Id. */
-  int MAYORIGUAL = 23;
+  int FALSE = 23;
   /** RegularExpression Id. */
-  int IGUAL = 24;
+  int ASIGNACION = 24;
   /** RegularExpression Id. */
-  int DIFERENTE = 25;
+  int RESTA = 25;
   /** RegularExpression Id. */
-  int PARENTA = 26;
+  int SUMA = 26;
   /** RegularExpression Id. */
-  int PARENTC = 27;
+  int MULTIPLICACION = 27;
   /** RegularExpression Id. */
-  int LLAVEA = 28;
+  int DIVISION = 28;
   /** RegularExpression Id. */
-  int LLAVEC = 29;
+  int MENOR = 29;
   /** RegularExpression Id. */
-  int COMA = 30;
+  int MAYOR = 30;
   /** RegularExpression Id. */
-  int PUNTO = 31;
+  int MENORIGUAL = 31;
   /** RegularExpression Id. */
-  int PCOMA = 32;
+  int MAYORIGUAL = 32;
   /** RegularExpression Id. */
-  int DCOMA = 33;
+  int IGUAL = 33;
   /** RegularExpression Id. */
-  int SCOMA = 34;
+  int DIFERENTE = 34;
   /** RegularExpression Id. */
-  int DCORCHETE = 35;
+  int PARENTA = 35;
   /** RegularExpression Id. */
-  int SCORCHETE = 36;
+  int PARENTC = 36;
   /** RegularExpression Id. */
-  int INT = 37;
+  int LLAVEA = 37;
   /** RegularExpression Id. */
-  int FLOAT = 38;
+  int LLAVEC = 38;
   /** RegularExpression Id. */
-  int BOOLEAN = 39;
+  int COMA = 39;
   /** RegularExpression Id. */
-  int CHAR = 40;
+  int PUNTO = 40;
   /** RegularExpression Id. */
-  int STR = 41;
+  int PCOMA = 41;
   /** RegularExpression Id. */
-  int NUMERO = 42;
+  int DCOMA = 42;
   /** RegularExpression Id. */
-  int DECIMAL = 43;
+  int SCOMA = 43;
   /** RegularExpression Id. */
-  int CADENA = 44;
+  int DCORCHETE = 44;
   /** RegularExpression Id. */
-  int CARACTER = 45;
+  int SCORCHETE = 45;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 46;
+  int INT = 46;
+  /** RegularExpression Id. */
+  int FLOAT = 47;
+  /** RegularExpression Id. */
+  int BOOLEAN = 48;
+  /** RegularExpression Id. */
+  int CHAR = 49;
+  /** RegularExpression Id. */
+  int STR = 50;
+  /** RegularExpression Id. */
+  int NUMERO = 51;
+  /** RegularExpression Id. */
+  int DECIMAL = 52;
+  /** RegularExpression Id. */
+  int CADENA = 53;
+  /** RegularExpression Id. */
+  int CARACTER = 54;
+  /** RegularExpression Id. */
+  int IDENTIFICADOR = 55;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -118,6 +136,15 @@ public interface lexicoConstants {
     "\"while\"",
     "\"do\"",
     "\"for\"",
+    "\"function\"",
+    "\"list\"",
+    "\"add\"",
+    "\"get\"",
+    "\"stack\"",
+    "\"push\"",
+    "\"pop\"",
+    "\"void\"",
+    "\"return\"",
     "\"||\"",
     "\"&&\"",
     "\"!\"",

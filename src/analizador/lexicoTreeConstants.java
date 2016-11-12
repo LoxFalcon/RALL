@@ -12,44 +12,59 @@ public interface lexicoTreeConstants
   public int JJTOPERACION = 6;
   public int JJTARREGLO = 7;
   public int JJTINDICE = 8;
-  public int JJTTIPOINTEGER = 9;
-  public int JJTTIPOFLOAT = 10;
-  public int JJTTIPOBOOLEAN = 11;
-  public int JJTTIPOCHARACTER = 12;
-  public int JJTTIPOSTRING = 13;
-  public int JJTVALORNUMEROENTERO = 14;
-  public int JJTVALORNUMERODECIMAL = 15;
-  public int JJTVALORCARACTER = 16;
-  public int JJTVALORTRUE = 17;
-  public int JJTVALORFALSE = 18;
-  public int JJTVALORCADENA = 19;
-  public int JJTIDENTIFICADOR = 20;
-  public int JJTIMPRESION = 21;
-  public int JJTASIGNACION = 22;
-  public int JJTENTRADA = 23;
-  public int JJTOPERADORMULTIPLICAR = 24;
-  public int JJTOPERADORDIVIDIR = 25;
-  public int JJTOPERADORSUMAR = 26;
-  public int JJTOPERADORRESTAR = 27;
-  public int JJTMENOR = 28;
-  public int JJTMAYOR = 29;
-  public int JJTIGUAL = 30;
-  public int JJTMENORIGUAL = 31;
-  public int JJTMAYORIGUAL = 32;
-  public int JJTDIFERENTE = 33;
-  public int JJTDECISIONIF = 34;
-  public int JJTDECISIONELSE = 35;
-  public int JJTEXPRESIONLOGICA = 36;
-  public int JJTEXPRESIONSIMPLE = 37;
-  public int JJTEXPRESIONBOOLEAN = 38;
-  public int JJTOPERADOROR = 39;
-  public int JJTOPERADORAND = 40;
-  public int JJTCICLODOWHILE = 41;
-  public int JJTCICLOWHILE = 42;
-  public int JJTCICLOFOR = 43;
-  public int JJTINICIALIZACION = 44;
-  public int JJTVARIABLE = 45;
-  public int JJTINCREMENTOS = 46;
+  public int JJTCREARFUNCION = 9;
+  public int JJTFUNCION = 10;
+  public int JJTLLAMARFUNCION = 11;
+  public int JJTARGUMENTOE = 12;
+  public int JJTARGUMENTOF = 13;
+  public int JJTRETORNARVALOR = 14;
+  public int JJTCREARPILA = 15;
+  public int JJTPILAPUSH = 16;
+  public int JJTPILAPOP = 17;
+  public int JJTCREARLISTA = 18;
+  public int JJTLISTAADD = 19;
+  public int JJTLISTAGET = 20;
+  public int JJTTIPOINTEGER = 21;
+  public int JJTTIPOFLOAT = 22;
+  public int JJTTIPOBOOLEAN = 23;
+  public int JJTTIPOCHARACTER = 24;
+  public int JJTTIPOSTRING = 25;
+  public int JJTTIPOVOID = 26;
+  public int JJTTIPOLIST = 27;
+  public int JJTTIPOSTACK = 28;
+  public int JJTVALORNUMEROENTERO = 29;
+  public int JJTVALORNUMERODECIMAL = 30;
+  public int JJTVALORCARACTER = 31;
+  public int JJTVALORTRUE = 32;
+  public int JJTVALORFALSE = 33;
+  public int JJTVALORCADENA = 34;
+  public int JJTIDENTIFICADOR = 35;
+  public int JJTIMPRESION = 36;
+  public int JJTASIGNACION = 37;
+  public int JJTENTRADA = 38;
+  public int JJTOPERADORMULTIPLICAR = 39;
+  public int JJTOPERADORDIVIDIR = 40;
+  public int JJTOPERADORSUMAR = 41;
+  public int JJTOPERADORRESTAR = 42;
+  public int JJTMENOR = 43;
+  public int JJTMAYOR = 44;
+  public int JJTIGUAL = 45;
+  public int JJTMENORIGUAL = 46;
+  public int JJTMAYORIGUAL = 47;
+  public int JJTDIFERENTE = 48;
+  public int JJTDECISIONIF = 49;
+  public int JJTDECISIONELSE = 50;
+  public int JJTEXPRESIONLOGICA = 51;
+  public int JJTEXPRESIONSIMPLE = 52;
+  public int JJTEXPRESIONBOOLEAN = 53;
+  public int JJTOPERADOROR = 54;
+  public int JJTOPERADORAND = 55;
+  public int JJTCICLODOWHILE = 56;
+  public int JJTCICLOWHILE = 57;
+  public int JJTCICLOFOR = 58;
+  public int JJTINICIALIZACION = 59;
+  public int JJTVARIABLE = 60;
+  public int JJTINCREMENTOS = 61;
 
 
   public String[] jjtNodeName = {
@@ -62,11 +77,26 @@ public interface lexicoTreeConstants
     "operacion",
     "arreglo",
     "indice",
+    "crearFuncion",
+    "funcion",
+    "llamarFuncion",
+    "argumentoe",
+    "argumentof",
+    "retornarValor",
+    "crearPila",
+    "pilaPush",
+    "pilaPop",
+    "crearLista",
+    "listaAdd",
+    "listaGet",
     "tipoInteger",
     "tipoFloat",
     "tipoBoolean",
     "tipoCharacter",
     "tipoString",
+    "tipoVoid",
+    "tipoList",
+    "tipoStack",
     "valorNumeroEntero",
     "valorNumeroDecimal",
     "valorCaracter",
@@ -102,4 +132,4 @@ public interface lexicoTreeConstants
     "incrementos",
   };
 }
-/* JavaCC - OriginalChecksum=940f5ed6bdf4bd4b3ea0a338ca690b8d (do not edit this line) */
+/* JavaCC - OriginalChecksum=dea32a0890a273557d4f2e4fe26646a5 (do not edit this line) */

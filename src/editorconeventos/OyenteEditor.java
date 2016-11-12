@@ -1,6 +1,12 @@
 package editorconeventos;
 
+import analizador.lexico;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
@@ -18,12 +24,22 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
 
     private final VentanaEditor ventana;
     private final PanelEditor panel;
-    private String archivoActual;
     private boolean cambioDocumento = false;
+    private File archivoActual;
+    private String defaultDirectory = "C:\\Users\\Arturo\\Documents\\RALLProyects";
+    private File tempDirectory;
+    private String compiledPath;
+    private boolean isCompiled = false;
+    private boolean isAnalized = false;
 
     public OyenteEditor(PanelEditor panel, VentanaEditor ventana) {
         this.ventana = ventana;
         this.panel = panel;
+        try {
+            tempDirectory = new File(Files.createTempDirectory("RALL").toString());
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error Interno", JOptionPane.ERROR);
+        }
     }
 
     @Override
@@ -63,10 +79,16 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
                 panel.analisisLexico();
                 break;
             case "sintactico":
-                panel.analisisSintactico();
+                isAnalized = panel.analisisSintactico();
                 break;
             case "sobre":
                 ventana.mostrarAcercade();
+                break;
+            case "compilar":
+                compilar();
+                break;
+            case "iniciar":
+                ejecutar();
                 break;
         }
     }
@@ -75,7 +97,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
         if (!confirmarGuardado()) {
             return;
         }
-        JFileChooser seleccion = new JFileChooser();
+        JFileChooser seleccion = new JFileChooser(defaultDirectory);
         seleccion.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter filtro1 //Limita el tipo de archivo que se puede seleccionar en el FileChooser
                 = new FileNameExtensionFilter("Archivos de texto", "txt");
@@ -85,25 +107,27 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
         seleccion.setFileFilter(filtro2);
         int opcion = seleccion.showOpenDialog(panel);
         if (opcion == JFileChooser.APPROVE_OPTION) {
+            archivoActual = seleccion.getSelectedFile();
+            ArrayList<String> lineal = Archivo.leerArchivo(archivoActual.getAbsolutePath());
+            String nombre = archivoActual.getName();
+            ventana.setTitle(nombre.substring(0, nombre.indexOf(".")) + " - " + ventana.getTitulo());
             panel.limpiarPantalla();
-            ventana.setTitle(seleccion.getSelectedFile().getName() + " - " + ventana.getTitulo());
-            String archivo = seleccion.getSelectedFile().getAbsolutePath();
-            archivoActual = archivo;
-            ArrayList<String> lineal = Archivo.leerArchivo(archivo);
             for (String linea : lineal) { //For each, no es necesario usar una variable de control
                 panel.getAreaTexto().append(linea + "\n");
             }
             cambioDocumento = false;
+            isCompiled = false;
+            isAnalized = false;
         }
     }
 
     public void guardarArchivo() {
         String lineas[] = panel.getAreaTexto().getText().split("\n");
         if (archivoActual != null) {
-            Archivo.grabarArchivo(archivoActual, lineas);
+            Archivo.grabarArchivo(archivoActual.getAbsolutePath(), lineas);
             cambioDocumento = false;
         } else {
-            JFileChooser seleccion = new JFileChooser();
+            JFileChooser seleccion = new JFileChooser(defaultDirectory);
             seleccion.setAcceptAllFileFilterUsed(false);
             FileNameExtensionFilter filtro1 //Limita el tipo de archivo que se puede seleccionar en el FileChooser
                     = new FileNameExtensionFilter("Archivos de texto (.txt)", "txt");
@@ -114,13 +138,15 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
             int opcion = seleccion.showSaveDialog(panel);
             if (opcion == JFileChooser.APPROVE_OPTION) {
                 String ext = "." + ((FileNameExtensionFilter) seleccion.getFileFilter()).getExtensions()[0];
-                ventana.setTitle(seleccion.getSelectedFile().getName() + " - " + ventana.getTitulo());
                 String rutaArchivo = seleccion.getSelectedFile().getAbsolutePath();
-                archivoActual = rutaArchivo;
                 if (!rutaArchivo.endsWith(ext)) {
                     rutaArchivo += ext;
                 }
                 Archivo.grabarArchivo(rutaArchivo, lineas);
+                archivoActual = new File(rutaArchivo);
+                String nombre = archivoActual.getName();
+                nombre = nombre.substring(0, nombre.indexOf("."));
+                ventana.setTitle(nombre + " - " + ventana.getTitulo());
                 cambioDocumento = false;
             }
         }
@@ -129,7 +155,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
 
     public void guardarArchivoComo() {
         String lineas[] = panel.getAreaTexto().getText().split("\n");
-        JFileChooser seleccion = new JFileChooser();
+        JFileChooser seleccion = new JFileChooser(defaultDirectory);
         seleccion.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter filtro1 //Limita el tipo de archivo que se puede seleccionar en el FileChooser
                 = new FileNameExtensionFilter("Archivos de texto (.txt)", "txt");
@@ -140,14 +166,84 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
         int opcion = seleccion.showSaveDialog(panel);
         if (opcion == JFileChooser.APPROVE_OPTION) {
             String ext = "." + ((FileNameExtensionFilter) seleccion.getFileFilter()).getExtensions()[0];
-            ventana.setTitle(seleccion.getSelectedFile().getName() + " - " + ventana.getTitulo());
-            String rutaArchivo = seleccion.getSelectedFile().getAbsolutePath();
-            archivoActual = rutaArchivo;
+            archivoActual = seleccion.getSelectedFile();
+            String rutaArchivo = archivoActual.getAbsolutePath();
             if (!rutaArchivo.endsWith(ext)) {
                 rutaArchivo += ext;
             }
             Archivo.grabarArchivo(rutaArchivo, lineas);
+            ventana.setTitle(seleccion.getSelectedFile().getName() + " - " + ventana.getTitulo());
             cambioDocumento = false;
+        }
+    }
+
+    public void compilar() {
+        if (isAnalized) {
+            String code = lexico.result;
+            String nombreArchivo = archivoActual.getName();
+            nombreArchivo = nombreArchivo.substring(0, nombreArchivo.indexOf("."));
+            String rutaArchivo = tempDirectory.getAbsolutePath() + "\\";
+            String ruta = rutaArchivo + nombreArchivo + ".c";
+            if (!code.isEmpty()) {
+                Archivo.grabarArchivo(ruta, code.split("\n"));
+                String output = archivoActual.getAbsolutePath();
+                output = output.substring(0, output.lastIndexOf("\\") + 1);
+                StringBuilder st = new StringBuilder();
+                st.append("gcc ");
+                st.append("\"");
+                st.append(ruta);
+                st.append("\"");
+                st.append(" -o ");
+                st.append("\"");
+                st.append(output);
+                st.append(nombreArchivo);
+                st.append(".exe");
+                st.append("\"");
+                String command = st.toString();
+                try {
+                    Process proc = Runtime.getRuntime().exec(command);
+                    InputStreamReader entrada = new InputStreamReader(proc.getErrorStream());
+                    BufferedReader Input = new BufferedReader(entrada);
+                    String salida;
+                    if (Input.readLine() != null) {
+                        while ((salida = Input.readLine()) != null) {
+                            System.out.println(salida);
+                        }
+                    }
+                    if (proc.exitValue() == 0) {
+                        System.out.println("Compilacion terminada");
+                        isCompiled = true;
+                        compiledPath = output + nombreArchivo + ".exe";
+                        JOptionPane.showMessageDialog(ventana, "Programa compilado con exito", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(ventana, "No se ha podido compilar el programa", "Error de compilacion", JOptionPane.ERROR_MESSAGE);
+                        isCompiled = false;
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error Interno", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        } else {
+            isAnalized = panel.analisisSintactico();
+            if(isAnalized){
+                compilar();
+            }
+        }
+    }
+
+    public void ejecutar() {
+        if (isCompiled) {
+            try {
+                String command = "cmd /c start call " + "\"" + compiledPath + "\"";
+                Process proc = Runtime.getRuntime().exec(command);
+                System.out.println("Programa Iniciado");
+
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(ventana, ex.getMessage(), "Error de ejecucion", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(ventana, "Primero debe compilar el programa", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -164,10 +260,41 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
         return true;
     }
 
+    public String getDefaultDirectory() {
+        return defaultDirectory;
+    }
+
+    public void setDefaultDirectory(String defaultDirectory) {
+        this.defaultDirectory = defaultDirectory;
+    }
+
+    public void deleteTempFiles(File folder) {
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    deleteTempFiles(file);
+                } else {
+                    file.delete();
+                }
+            }
+        }
+        folder.delete();
+    }
+
+    public void deleteTempStuff() {
+        deleteTempFiles(tempDirectory);
+    }
+
+    public void salirDePrograma() {
+        deleteTempStuff();
+        System.exit(0);
+    }
+
     @Override
     public void windowClosing(WindowEvent e) {
         if (confirmarGuardado()) {
-            ventana.salirDePrograma();
+            salirDePrograma();
         }
     }
 

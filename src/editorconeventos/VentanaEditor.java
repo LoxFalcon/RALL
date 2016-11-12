@@ -30,14 +30,14 @@ public class VentanaEditor extends javax.swing.JFrame {
         initComponents();
         JFrame.setDefaultLookAndFeelDecorated(true);
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            SwingUtilities.updateComponentTreeUI(this);
             Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconos/logo64.png"));
             setIconImage(icon);
-            setVisible(true);
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            SwingUtilities.updateComponentTreeUI(this);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(VentanaEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        setTitle("Nuevo documento - " + getTitulo());
     }
 
     public void addEventos(OyenteEditor oyente) {
@@ -52,6 +52,8 @@ public class VentanaEditor extends javax.swing.JFrame {
         opcionAnalisisSintactico.addActionListener(oyente);
         opcionSobre.addActionListener(oyente);
         opcionGuardarComo.addActionListener(oyente);
+        opcionCompilar.addActionListener(oyente);
+        opcionIniciar.addActionListener(oyente);
         addWindowListener(oyente);
     }
 
@@ -88,6 +90,9 @@ public class VentanaEditor extends javax.swing.JFrame {
         menuAnalizar = new javax.swing.JMenu();
         opcionAnalisisLexico = new javax.swing.JMenuItem();
         opcionAnalisisSintactico = new javax.swing.JMenuItem();
+        menuEjecutar = new javax.swing.JMenu();
+        opcionCompilar = new javax.swing.JMenuItem();
+        opcionIniciar = new javax.swing.JMenuItem();
         menuConfiguracion = new javax.swing.JMenu();
         opcionPreferencias = new javax.swing.JMenuItem();
         menuAyuda = new javax.swing.JMenu();
@@ -159,6 +164,20 @@ public class VentanaEditor extends javax.swing.JFrame {
 
         barraMenu.add(menuAnalizar);
 
+        menuEjecutar.setText("Ejecutar");
+
+        opcionCompilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/flash.png"))); // NOI18N
+        opcionCompilar.setText("Compilar Programa");
+        opcionCompilar.setName("compilar"); // NOI18N
+        menuEjecutar.add(opcionCompilar);
+
+        opcionIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/play.png"))); // NOI18N
+        opcionIniciar.setText("Iniciar Programa");
+        opcionIniciar.setName("iniciar"); // NOI18N
+        menuEjecutar.add(opcionIniciar);
+
+        barraMenu.add(menuEjecutar);
+
         menuConfiguracion.setText("Configuracion");
 
         opcionPreferencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/configuracion.png"))); // NOI18N
@@ -181,11 +200,8 @@ public class VentanaEditor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void salirDePrograma() {
-        System.exit(0);
-    }
 
-    public String getTitulo() {
+    public final String getTitulo() {
         return titulo;
     }
 
@@ -200,13 +216,16 @@ public class VentanaEditor extends javax.swing.JFrame {
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenu menuConfiguracion;
     private javax.swing.JMenu menuEditar;
+    private javax.swing.JMenu menuEjecutar;
     private javax.swing.JMenuItem opcionAbrir;
     private javax.swing.JMenuItem opcionAnalisisLexico;
     private javax.swing.JMenuItem opcionAnalisisSintactico;
+    private javax.swing.JMenuItem opcionCompilar;
     private javax.swing.JMenuItem opcionCopiar;
     private javax.swing.JMenuItem opcionCortar;
     private javax.swing.JMenuItem opcionGuardar;
     private javax.swing.JMenuItem opcionGuardarComo;
+    private javax.swing.JMenuItem opcionIniciar;
     private javax.swing.JMenuItem opcionLimpiar;
     private javax.swing.JMenuItem opcionNuevo;
     private javax.swing.JMenuItem opcionPegar;

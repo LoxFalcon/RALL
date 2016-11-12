@@ -1,0 +1,17 @@
+main{
+int num1;
+int num2;
+int resultado;
+
+function int suma(int a, int b){
+return a + b;
+}
+
+print "Ingrese el primer numero: ";
+input(num1);
+print "Ingrese el segundo numero: ";
+input(num2);
+resultado = suma(num1, num2);
+print "El resultado es: ";
+print resultado;
+}

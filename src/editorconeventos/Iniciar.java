@@ -15,7 +15,7 @@ import javax.swing.JFrame;
  *
  * @author Arturo
  */
-public class EditorConEventos {
+public class Iniciar {
 
     /**
      * @param args the command line arguments
@@ -35,7 +35,6 @@ public class EditorConEventos {
         System.setOut(out);
         OyenteEditor oyente = new OyenteEditor(p, f);
         f.setSize(800, 600);
-        f.setTitle("Nuevo documento - " + f.getTitulo());
         f.setLocation(100,100);
         f.addEventos(oyente);
         p.addEventos(oyente);

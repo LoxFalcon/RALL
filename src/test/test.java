@@ -5,17 +5,23 @@
  */
 package test;
 
-import analizador.SymbolsTable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static analizador.lexicoConstants.INT;
+import analizador.RALLConverter;
+import static analizador.RALLConverter.Null;
 
 /**
  *
  * @author Arturo
  */
 public class test {
-    /**
-     * @param args the command line arguments
-     */
-    
+
+    public static void main(String[] args) {
+        RALLConverter c = new RALLConverter();
+        c.insertConstant(INT, "temp", "5 / 2");
+        c.setContext(RALLConverter.MAINBLOCK);
+        c.insertAssignment("temp", "5", Null);
+        c.setContext(RALLConverter.SYMBOLS);
+        c.insertAssignment("temp", "55", Null);
+        c.printResult();
+    }
 }
