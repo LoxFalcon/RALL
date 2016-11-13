@@ -218,6 +218,13 @@ public class RALLConverter implements lexicoConstants {
         target.append(close);
         target.append(newLine);
     }
+    
+    public void printLine(){
+        StringBuilder target = getContext();
+        target.append("printf(\"\\n\")");
+        target.append(close);
+        target.append(newLine);
+    }
 
     public void inputElement(int valueKind, String id) {
         StringBuilder target = getContext();

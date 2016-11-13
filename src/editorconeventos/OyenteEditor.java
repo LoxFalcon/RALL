@@ -306,6 +306,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
     @Override
     public void removeUpdate(DocumentEvent e) {
         cambioDocumento = !panel.getAreaTexto().getText().isEmpty();
+        isAnalized = false;
     }
 
     @Override

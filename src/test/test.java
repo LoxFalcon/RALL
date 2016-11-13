@@ -22,6 +22,7 @@ public class test {
         c.insertAssignment("temp", "5", Null);
         c.setContext(RALLConverter.SYMBOLS);
         c.insertAssignment("temp", "55", Null);
+        c.printLine();
         c.printResult();
     }
 }

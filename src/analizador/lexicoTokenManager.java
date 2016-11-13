@@ -583,7 +583,7 @@ static private int jjMoveNfa_0(int startState, int curPos)
                   break;
                case 1:
                case 2:
-                  if ((0x7fffffe07fffffeL & l) != 0L)
+                  if ((0x7fffffe17fffffeL & l) != 0L)
                      jjCheckNAddTwoStates(2, 3);
                   break;
                case 5:
@@ -1070,7 +1070,7 @@ static void TokenLexicalActions(Token matchedToken)
          break;
       case 53 :
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
-                                                                                                              if(lexico.bandera)System.out.println("Cadena de caracteres: " + image);
+                                                                                                                          if(lexico.bandera)System.out.println("Cadena de caracteres: " + image);
          break;
       case 54 :
         image.append(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));
