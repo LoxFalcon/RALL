@@ -78,165 +78,172 @@ public class RALLConverter implements lexicoConstants {
         symbols.append("	int fin;\n");
         symbols.append("	int capacidad;\n");
         symbols.append("};\n");
-        functions.append("int _popInt(struct _stackInt s){\n");
-        functions.append("	if(s.tope == -1){\n");
+        functions.append("int _popInt(struct _stackInt *s){\n");
+        functions.append("	if(s->tope == -1){\n");
         functions.append("		printf(\"ERROR Stack vacío\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	return s.data[s.tope--];\n");
+        functions.append("	return s->data[s->tope--];\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("float _popFloat(struct _stackFloat s){\n");
-        functions.append("	if(s.tope == -1){\n");
+        functions.append("float _popFloat(struct _stackFloat *s){\n");
+        functions.append("	if(s->tope == -1){\n");
         functions.append("		printf(\"ERROR Stack vacío\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	return s.data[s.tope--];\n");
+        functions.append("	return s->data[s->tope--];\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("char _popChar(struct _stackChar s){\n");
-        functions.append("	if(s.tope == -1){\n");
+        functions.append("char _popChar(struct _stackChar *s){\n");
+        functions.append("	if(s->tope == -1){\n");
         functions.append("		printf(\"ERROR Stack vacío\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	return s.data[s.tope--];\n");
+        functions.append("	return s->data[s->tope--];\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("int _frontInt(struct _queueInt q){\n");
-        functions.append("	if(q.frente==-1 || q.fin==-1){\n");
-        functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
-        functions.append("		exit(EXIT_FAILURE);\n");
-        functions.append("	}\n");
-        functions.append("	int retVal = q.data[q.frente];\n");
-        functions.append("	if(q.frente == q.fin){ //Se vacía la cola\n");
-        functions.append("		q.frente = -1;\n");
-        functions.append("		q.fin = -1; 		\n");
-        functions.append("	}else{\n");
-        functions.append("		q.frente = (q.frente + 1) % q.capacidad;\n");
-        functions.append("	} \n");
-        functions.append("	return retVal;\n");
-        functions.append("}\n");
-        functions.append("\n");
-        functions.append("float _frontFloat(struct _queueFloat q){\n");
-        functions.append("	if(q.frente==-1 || q.fin==-1){\n");
-        functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
-        functions.append("		exit(EXIT_FAILURE);\n");
-        functions.append("	}\n");
-        functions.append("	float retVal = q.data[q.frente];\n");
-        functions.append("	if(q.frente == q.fin){ //Se vacía la cola\n");
-        functions.append("		q.frente = -1;\n");
-        functions.append("		q.fin = -1; 		\n");
-        functions.append("	}else{\n");
-        functions.append("		q.frente = (q.frente + 1) % q.capacidad;\n");
-        functions.append("	} \n");
-        functions.append("	return retVal;\n");
-        functions.append("}\n");
-        functions.append("\n");
-        functions.append("char _frontChar(struct _queueChar q){\n");
-        functions.append("	if(q.frente==-1 || q.fin==-1){\n");
-        functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
-        functions.append("		exit(EXIT_FAILURE);\n");
-        functions.append("	}\n");
-        functions.append("	char retVal = q.data[q.frente];\n");
-        functions.append("	if(q.frente == q.fin){ //Se vacía la cola\n");
-        functions.append("		q.frente = -1;\n");
-        functions.append("		q.fin = -1; 		\n");
-        functions.append("	}else{\n");
-        functions.append("		q.frente = (q.frente + 1) % q.capacidad;\n");
-        functions.append("	} \n");
-        functions.append("	return retVal;\n");
-        functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _pushInt(struct _stackInt s, int valor){\n");
-        functions.append("	if(s.tope>=s.capacidad){\n");
+        functions.append("void _pushInt(struct _stackInt *s, int valor){\n");
+        functions.append("	printf(\"TOPe %d cap %d\\n\",s->tope,s->capacidad);\n");
+        functions.append("	if(s->tope>=s->capacidad){\n");
         functions.append("		printf(\"ERROR Stack lleno\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	s.data[++s.tope] = valor;\n");
+        functions.append("	s->data[++s->tope] = valor;\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _pushFloat(struct _stackFloat s, float valor){\n");
-        functions.append("	if(s.tope>=s.capacidad){\n");
+        functions.append("void _pushFloat(struct _stackFloat *s, float valor){\n");
+        functions.append("	if(s->tope>=s->capacidad){\n");
         functions.append("		printf(\"ERROR Stack lleno\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	s.data[++s.tope] = valor;\n");
+        functions.append("	s->data[++s->tope] = valor;\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _pushChar(struct _stackChar s, char valor){\n");
-        functions.append("	if(s.tope>=s.capacidad){\n");
+        functions.append("void _pushChar(struct _stackChar *s, char valor){\n");
+        functions.append("	if(s->tope>=s->capacidad){\n");
         functions.append("		printf(\"ERROR Stack lleno\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	s.data[++s.tope] = valor;\n");
+        functions.append("	s->data[++s->tope] = valor;\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _enqueueInt(struct _queueInt q, int valor){\n");
-        functions.append("	int newIndex = (q.fin + 1) % q.capacidad;\n");
-        functions.append("	if(newIndex == q.frente){\n");
-        functions.append("		printf(\"ERROR Cola llena\\n\");\n");
+        functions.append("void _initStackInt(struct _stackInt* s, int capacidad){\n");
+        functions.append("	s->tope = -1;\n");
+        functions.append("	s->capacidad = capacidad;\n");
+        functions.append("	s->data = (int*)malloc(capacidad*sizeof(int));\n");
+        functions.append("}\n");
+        functions.append("void _initStackFloat(struct _stackFloat* s, int capacidad){\n");
+        functions.append("	s->tope = -1;\n");
+        functions.append("	s->capacidad = capacidad;\n");
+        functions.append("	s->data = (float*)malloc(capacidad*sizeof(float));\n");
+        functions.append("}\n");
+        functions.append("void _initStackChar(struct _stackChar* s, int capacidad){\n");
+        functions.append("	s->tope = -1;\n");
+        functions.append("	s->capacidad = capacidad;\n");
+        functions.append("	s->data = (char*)malloc(capacidad*sizeof(char));\n");
+        functions.append("}\n");
+        functions.append("int _frontInt(struct _queueInt *q){\n");
+        functions.append("	if(q->frente==-1 || q->fin==-1){\n");
+        functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	q.data[newIndex] = valor;\n");
+        functions.append("	int retVal = q->data[q->frente];\n");
+        functions.append("	if(q->frente == q->fin){ //Se vacía la cola\n");
+        functions.append("		q->frente = -1;\n");
+        functions.append("		q->fin = -1; 		\n");
+        functions.append("	}else{\n");
+        functions.append("		q->frente = (q->frente + 1) % q->capacidad;\n");
+        functions.append("	} \n");
+        functions.append("	return retVal;\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _enqueueFloat(struct _queueFloat q, float valor){\n");
-        functions.append("	int newIndex = (q.fin + 1) % q.capacidad;\n");
-        functions.append("	if(newIndex == q.frente){\n");
-        functions.append("		printf(\"ERROR Cola llena\\n\");\n");
+        functions.append("float _frontFloat(struct _queueFloat *q){\n");
+        functions.append("	if(q->frente==-1 || q->fin==-1){\n");
+        functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	q.data[newIndex] = valor;\n");
+        functions.append("	float retVal = q->data[q->frente];\n");
+        functions.append("	if(q->frente == q->fin){ //Se vacía la cola\n");
+        functions.append("		q->frente = -1;\n");
+        functions.append("		q->fin = -1; 		\n");
+        functions.append("	}else{\n");
+        functions.append("		q->frente = (q->frente + 1) % q->capacidad;\n");
+        functions.append("	} \n");
+        functions.append("	return retVal;\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _enqueueChar(struct _queueInt q, char valor){\n");
-        functions.append("	int newIndex = (q.fin + 1) % q.capacidad;\n");
-        functions.append("	if(newIndex == q.frente){\n");
-        functions.append("		printf(\"ERROR Cola llena\\n\");\n");
+        functions.append("char _frontChar(struct _queueChar *q){\n");
+        functions.append("	if(q->frente==-1 || q->fin==-1){\n");
+        functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
-        functions.append("	q.data[newIndex] = valor;\n");
+        functions.append("	char retVal = q->data[q->frente];\n");
+        functions.append("	if(q->frente == q->fin){ //Se vacía la cola\n");
+        functions.append("		q->frente = -1;\n");
+        functions.append("		q->fin = -1; 		\n");
+        functions.append("	}else{\n");
+        functions.append("		q->frente = (q->frente + 1) % q->capacidad;\n");
+        functions.append("	} \n");
+        functions.append("	return retVal;\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _initStackInt(struct _stackInt s, int capacidad){\n");
-        functions.append("	s.tope = -1;\n");
-        functions.append("	s.capacidad = capacidad;\n");
-        functions.append("	s.data = (int*)malloc(capacidad*sizeof(int));\n");
+        functions.append("void _enqueueInt(struct _queueInt *q, int valor){\n");
+        functions.append("	int newIndex;\n");
+        functions.append("	if(q->fin == -1 || q->frente == -1){\n");
+        functions.append("		q->frente = 0;\n");
+        functions.append("		q->fin = 0;\n");
+        functions.append("		q->data[q->fin] = valor;\n");
+        functions.append("		return;\n");
+        functions.append("	}else{\n");
+        functions.append("		int newIndex = (q->fin + 1) % q->capacidad;\n");
+        functions.append("		if(newIndex == q->frente){\n");
+        functions.append("			printf(\"ERROR Cola llena\\n\");\n");
+        functions.append("			exit(EXIT_FAILURE);\n");
+        functions.append("		}\n");
+        functions.append("		q->data[q->fin = newIndex] = valor;\n");
+        functions.append("	}	\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _initStackFloat(struct _stackFloat s, int capacidad){\n");
-        functions.append("	s.tope = -1;\n");
-        functions.append("	s.capacidad = capacidad;\n");
-        functions.append("	s.data = (float*)malloc(capacidad*sizeof(float));\n");
+        functions.append("void _enqueueFloat(struct _queueFloat *q, float valor){\n");
+        functions.append("	int newIndex;\n");
+        functions.append("	if(q->fin == -1 || q->frente == -1){\n");
+        functions.append("		q->frente = 0;\n");
+        functions.append("		q->fin = 0;\n");
+        functions.append("		q->data[q->fin] = valor;\n");
+        functions.append("		return;\n");
+        functions.append("	}else{\n");
+        functions.append("		int newIndex = (q->fin + 1) % q->capacidad;\n");
+        functions.append("		if(newIndex == q->frente){\n");
+        functions.append("			printf(\"ERROR Cola llena\\n\");\n");
+        functions.append("			exit(EXIT_FAILURE);\n");
+        functions.append("		}\n");
+        functions.append("		q->data[q->fin = newIndex] = valor;\n");
+        functions.append("	}	\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _initStackChar(struct _stackChar s, int capacidad){\n");
-        functions.append("	s.tope = -1;\n");
-        functions.append("	s.capacidad = capacidad;\n");
-        functions.append("	s.data = (char*)malloc(capacidad*sizeof(char));\n");
+        functions.append("void _enqueueChar(struct _queueChar* q, char valor){\n");
+        functions.append("	int newIndex;\n");
+        functions.append("	if(q->fin == -1 || q->frente == -1){\n");
+        functions.append("		q->frente = 0;\n");
+        functions.append("		q->fin = 0;\n");
+        functions.append("		q->data[q->fin] = valor;\n");
+        functions.append("		return;\n");
+        functions.append("	}else{\n");
+        functions.append("		int newIndex = (q->fin + 1) % q->capacidad;\n");
+        functions.append("		if(newIndex == q->frente){\n");
+        functions.append("			printf(\"ERROR Cola llena\\n\");\n");
+        functions.append("			exit(EXIT_FAILURE);\n");
+        functions.append("		}\n");
+        functions.append("		q->data[q->fin = newIndex] = valor;\n");
+        functions.append("	}	\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _initQueueInt(struct _queueInt q, int capacidad){\n");
-        functions.append("	q.frente = -1;\n");
-        functions.append("	q.fin = -1;\n");
-        functions.append("	q.capacidad = capacidad;\n");
-        functions.append("	q.data = (int*)malloc(capacidad*sizeof(int));\n");
+        functions.append("void _initQueueInt(struct _queueInt* q, int capacidad){\n");
+        functions.append("	q->frente = -1;\n");
+        functions.append("	q->fin = -1;\n");
+        functions.append("	q->capacidad = capacidad;\n");
+        functions.append("	q->data = (int*)malloc(capacidad*sizeof(int));\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("\n");
-        functions.append("void _initQueueFloat(struct _queueFloat q, int capacidad){\n");
-        functions.append("	q.frente = -1;\n");
-        functions.append("	q.fin = -1;\n");
-        functions.append("	q.capacidad = capacidad;\n");
-        functions.append("	q.data = (float*)malloc(capacidad*sizeof(float));\n");
+        functions.append("void _initQueueFloat(struct _queueFloat* q, int capacidad){\n");
+        functions.append("	q->frente = -1;\n");
+        functions.append("	q->fin = -1;\n");
+        functions.append("	q->capacidad = capacidad;\n");
+        functions.append("	q->data = (float*)malloc(capacidad*sizeof(float));\n");
         functions.append("}\n");
-        functions.append("\n");
-        functions.append("void _initQueueChar(struct _queueChar q, int capacidad){\n");
-        functions.append("	q.frente = -1;\n");
-        functions.append("	q.fin = -1;\n");
-        functions.append("	q.capacidad = capacidad;\n");
-        functions.append("	q.data = (char*)malloc(capacidad*sizeof(char));\n");
-        functions.append("}\n");
+        functions.append("void _initQueueChar(struct _queueChar* q, int capacidad){\n");
+        functions.append("	q->frente = -1;\n");
+        functions.append("	q->fin = -1;\n");
+        functions.append("	q->capacidad = capacidad;\n");
+        functions.append("	q->data = (char*)malloc(capacidad*sizeof(char));\n");
+        functions.append("}");
     }
 
     public void insertVariable(int kind, String id, String value, String index) {
@@ -421,13 +428,6 @@ public class RALLConverter implements lexicoConstants {
         target.append(newLine);
     }
 
-    public void printLine() {
-        StringBuilder target = getContext();
-        target.append("printf(\"\\n\")");
-        target.append(close);
-        target.append(newLine);
-    }
-
     public void inputElement(int valueKind, String id) {
         StringBuilder target = getContext();
         target.append("scanf(");
@@ -450,6 +450,156 @@ public class RALLConverter implements lexicoConstants {
         target.append(")");
         target.append(close);
         target.append(newLine);
+    }
+
+    public void insertStack(int kind, String id) {
+        StringBuilder target = getContext();
+        target.append("_stack");
+        String type = null;
+        switch (kind) {
+            case INT:
+                type = "Int";
+                break;
+            case FLOAT:
+                type = "Float";
+                break;
+            case CHAR:
+                type = "Char";
+                break;
+        }
+        target.append(type);
+        target.append(" ");
+        target.append(id);
+        target.append(close);
+        target.append(newLine);
+        target.append("_initStack");
+        target.append(type);
+        target.append("(&");
+        target.append(id);
+        target.append(", 200)");
+        target.append(close);
+        target.append(newLine);
+    }
+
+    public void stackPop(int kind, String id) {
+        StringBuilder target = getContext();
+        target.append("_pop");
+        String type = null;
+        switch (kind) {
+            case INT:
+                type = "Int";
+                break;
+            case FLOAT:
+                type = "Float";
+                break;
+            case CHAR:
+                type = "Char";
+                break;
+        }
+        target.append(type);
+        target.append("(&");
+        target.append(id);
+        target.append(")");
+    }
+
+    public void stackPush(int kind, String id, String value) {
+        StringBuilder target = getContext();
+        target.append("_push");
+        String type = null;
+        switch (kind) {
+            case INT:
+                type = "Int";
+                break;
+            case FLOAT:
+                type = "Float";
+                break;
+            case CHAR:
+                type = "Char";
+                break;
+        }
+        target.append(type);
+        target.append("(&");
+        target.append(id);
+        target.append(", ");
+        target.append(value);
+        target.append(")");
+        target.append(close);
+        target.append(newLine);
+    }
+
+    public void insertQueue(int kind, String id) {
+        StringBuilder target = getContext();
+        target.append("_queue");
+        String type = null;
+        switch (kind) {
+            case INT:
+                type = "Int";
+                break;
+            case FLOAT:
+                type = "Float";
+                break;
+            case CHAR:
+                type = "Char";
+                break;
+        }
+        target.append(type);
+        target.append(" ");
+        target.append(id);
+        target.append(close);
+        target.append(newLine);
+        target.append("_initQueue");
+        target.append(type);
+        target.append("(&");
+        target.append(id);
+        target.append(", 200)");
+        target.append(close);
+        target.append(newLine);
+    }
+
+    public void enqueue(int kind, String id, String value) {
+        StringBuilder target = getContext();
+        target.append("_enqueue");
+        String type = null;
+        switch (kind) {
+            case INT:
+                type = "Int";
+                break;
+            case FLOAT:
+                type = "Float";
+                break;
+            case CHAR:
+                type = "Char";
+                break;
+        }
+        target.append(type);
+        target.append("(&");
+        target.append(id);
+        target.append(", ");
+        target.append(value);
+        target.append(")");
+        target.append(close);
+        target.append(newLine);
+    }
+    
+    public void frontQueue(int kind, String id){
+        StringBuilder target = getContext();
+        target.append("_front");
+        String type = null;
+        switch (kind) {
+            case INT:
+                type = "Int";
+                break;
+            case FLOAT:
+                type = "Float";
+                break;
+            case CHAR:
+                type = "Char";
+                break;
+        }
+        target.append(type);
+        target.append("(&");
+        target.append(id);
+        target.append(")");
     }
 
     public void setContext(int context) {

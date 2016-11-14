@@ -22,7 +22,10 @@ public class test {
         c.insertAssignment("temp", "5", Null);
         c.setContext(RALLConverter.SYMBOLS);
         c.insertAssignment("temp", "55", Null);
-        c.printLine();
+        c.setContext(RALLConverter.MAINBLOCK);
+        c.insertStack(INT, "testStack");
+        c.stackPush(INT, "testStack", "5");
+        c.stackPop(INT, "testStack");
         c.printResult();
     }
 }
