@@ -26,7 +26,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
     private final PanelEditor panel;
     private boolean cambioDocumento = false;
     private File archivoActual;
-    private String defaultDirectory = "C:\\Users\\Arturo\\Documents\\RALLProyects";
+    private String defaultDirectory = "%userprofile%\\Documents\\RALLProyects";
     private File tempDirectory;
     private String compiledPath;
     private boolean isCompiled = false;
