@@ -62,7 +62,12 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
         scroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         areaTexto.setColumns(20);
+        areaTexto.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        areaTexto.setLineWrap(true);
         areaTexto.setRows(5);
+        areaTexto.setTabSize(4);
+        areaTexto.setAlignmentX(1.0F);
+        areaTexto.setAlignmentY(1.0F);
         scroll.setViewportView(areaTexto);
 
         jSplitPane1.setLeftComponent(scroll);
@@ -70,7 +75,10 @@ public class PanelEditor extends javax.swing.JPanel { //Otra forma de implementa
         scroll2.setBorder(javax.swing.BorderFactory.createTitledBorder("Salida de consola"));
 
         areaConsola.setEditable(false);
+        areaConsola.setBackground(new java.awt.Color(0, 0, 0));
         areaConsola.setColumns(20);
+        areaConsola.setFont(new java.awt.Font("Monospaced", 1, 13)); // NOI18N
+        areaConsola.setForeground(new java.awt.Color(255, 255, 255));
         areaConsola.setRows(5);
         scroll2.setViewportView(areaConsola);
 

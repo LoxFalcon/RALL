@@ -30,7 +30,7 @@ public class VentanaEditor extends javax.swing.JFrame {
         initComponents();
         JFrame.setDefaultLookAndFeelDecorated(true);
         try {
-            Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconos/logo64.png"));
+            Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconos/rall.png"));
             setIconImage(icon);
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(this);
@@ -42,9 +42,12 @@ public class VentanaEditor extends javax.swing.JFrame {
 
     public void addEventos(OyenteEditor oyente) {
         opcionAbrir.addActionListener(oyente);
+        toolAbrir.addActionListener(oyente);
         opcionGuardar.addActionListener(oyente);
         opcionCopiar.addActionListener(oyente);
+        toolCopiar.addActionListener(oyente);
         opcionPegar.addActionListener(oyente);
+        toolPegar.addActionListener(oyente);
         opcionCortar.addActionListener(oyente);
         opcionLimpiar.addActionListener(oyente);
         opcionNuevo.addActionListener(oyente);
@@ -52,8 +55,12 @@ public class VentanaEditor extends javax.swing.JFrame {
         opcionAnalisisSintactico.addActionListener(oyente);
         opcionSobre.addActionListener(oyente);
         opcionGuardarComo.addActionListener(oyente);
+        toolGuardar.addActionListener(oyente);
         opcionCompilar.addActionListener(oyente);
         opcionIniciar.addActionListener(oyente);
+        toolSalir.addActionListener(oyente);
+        toolCompilar.addActionListener(oyente);
+        toolCorrer.addActionListener(oyente);
         addWindowListener(oyente);
     }
 
@@ -76,16 +83,31 @@ public class VentanaEditor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        toolBar = new javax.swing.JToolBar();
+        toolAbrir = new javax.swing.JButton();
+        toolGuardar = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        toolCopiar = new javax.swing.JButton();
+        toolPegar = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        toolCompilar = new javax.swing.JButton();
+        toolCorrer = new javax.swing.JButton();
+        toolSalir = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
         barraMenu = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
         opcionNuevo = new javax.swing.JMenuItem();
         opcionAbrir = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         opcionGuardar = new javax.swing.JMenuItem();
         opcionGuardarComo = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        opcionSalir = new javax.swing.JMenuItem();
         menuEditar = new javax.swing.JMenu();
         opcionCortar = new javax.swing.JMenuItem();
         opcionCopiar = new javax.swing.JMenuItem();
         opcionPegar = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
         opcionLimpiar = new javax.swing.JMenuItem();
         menuAnalizar = new javax.swing.JMenu();
         opcionAnalisisLexico = new javax.swing.JMenuItem();
@@ -100,29 +122,86 @@ public class VentanaEditor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
+        toolBar.setRollover(true);
+
+        toolAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/abrir-tool.png"))); // NOI18N
+        toolAbrir.setFocusable(false);
+        toolAbrir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolAbrir.setName("abrir"); // NOI18N
+        toolAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(toolAbrir);
+
+        toolGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardar-tool.png"))); // NOI18N
+        toolGuardar.setFocusable(false);
+        toolGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolGuardar.setName("guardar"); // NOI18N
+        toolGuardar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(toolGuardar);
+        toolBar.add(jSeparator1);
+
+        toolCopiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cortar-tool.png"))); // NOI18N
+        toolCopiar.setFocusable(false);
+        toolCopiar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolCopiar.setName("copiar"); // NOI18N
+        toolCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(toolCopiar);
+
+        toolPegar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/copiar-tool.png"))); // NOI18N
+        toolPegar.setFocusable(false);
+        toolPegar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolPegar.setName("pegar"); // NOI18N
+        toolPegar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(toolPegar);
+        toolBar.add(jSeparator2);
+
+        toolCompilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479215449_tick_16.png"))); // NOI18N
+        toolCompilar.setFocusable(false);
+        toolCompilar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolCompilar.setName("compilar"); // NOI18N
+        toolCompilar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(toolCompilar);
+
+        toolCorrer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479215464_right_16.png"))); // NOI18N
+        toolCorrer.setFocusable(false);
+        toolCorrer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolCorrer.setName("ejecutar"); // NOI18N
+        toolCorrer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(toolCorrer);
+
+        toolSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479215475_block_16.png"))); // NOI18N
+        toolSalir.setFocusable(false);
+        toolSalir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolSalir.setName("salir"); // NOI18N
+        toolSalir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(toolSalir);
+        toolBar.add(jSeparator3);
+
+        getContentPane().add(toolBar, java.awt.BorderLayout.PAGE_START);
+
         barraMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         menuArchivo.setText("Archivo");
 
-        opcionNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/interface.png"))); // NOI18N
         opcionNuevo.setText("Nuevo");
         opcionNuevo.setName("nuevo"); // NOI18N
         menuArchivo.add(opcionNuevo);
 
-        opcionAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/black.png"))); // NOI18N
-        opcionAbrir.setText("Abrir...");
+        opcionAbrir.setText("Abrir");
         opcionAbrir.setName("abrir"); // NOI18N
         menuArchivo.add(opcionAbrir);
+        menuArchivo.add(jSeparator4);
 
-        opcionGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/save.png"))); // NOI18N
         opcionGuardar.setText("Guardar");
         opcionGuardar.setName("guardar"); // NOI18N
         menuArchivo.add(opcionGuardar);
 
-        opcionGuardarComo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/como.png"))); // NOI18N
         opcionGuardarComo.setText("Guardar como...");
         opcionGuardarComo.setName("guardarcomo"); // NOI18N
         menuArchivo.add(opcionGuardarComo);
+        menuArchivo.add(jSeparator5);
+
+        opcionSalir.setText("Salir");
+        menuArchivo.add(opcionSalir);
 
         barraMenu.add(menuArchivo);
 
@@ -133,17 +212,18 @@ public class VentanaEditor extends javax.swing.JFrame {
         opcionCortar.setName("cortar"); // NOI18N
         menuEditar.add(opcionCortar);
 
-        opcionCopiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/two.png"))); // NOI18N
+        opcionCopiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cortar-tool.png"))); // NOI18N
         opcionCopiar.setText("Copiar");
         opcionCopiar.setName("copiar"); // NOI18N
         menuEditar.add(opcionCopiar);
 
-        opcionPegar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/write.png"))); // NOI18N
+        opcionPegar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/copiar-tool.png"))); // NOI18N
         opcionPegar.setText("Pegar");
         opcionPegar.setName("pegar"); // NOI18N
         menuEditar.add(opcionPegar);
+        menuEditar.add(jSeparator6);
 
-        opcionLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/consola.png"))); // NOI18N
+        opcionLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479216452_monitor_16.png"))); // NOI18N
         opcionLimpiar.setText("Limpiar Consola");
         opcionLimpiar.setName("limpiar"); // NOI18N
         menuEditar.add(opcionLimpiar);
@@ -152,12 +232,12 @@ public class VentanaEditor extends javax.swing.JFrame {
 
         menuAnalizar.setText("Analizar");
 
-        opcionAnalisisLexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/vista.png"))); // NOI18N
+        opcionAnalisisLexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479215464_right_16.png"))); // NOI18N
         opcionAnalisisLexico.setText("Análisis Léxico");
         opcionAnalisisLexico.setName("lexico"); // NOI18N
         menuAnalizar.add(opcionAnalisisLexico);
 
-        opcionAnalisisSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/vista.png"))); // NOI18N
+        opcionAnalisisSintactico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479215464_right_16.png"))); // NOI18N
         opcionAnalisisSintactico.setText("Análisis Sintáctico - Semántico");
         opcionAnalisisSintactico.setName("sintactico"); // NOI18N
         menuAnalizar.add(opcionAnalisisSintactico);
@@ -166,7 +246,7 @@ public class VentanaEditor extends javax.swing.JFrame {
 
         menuEjecutar.setText("Ejecutar");
 
-        opcionCompilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/flash.png"))); // NOI18N
+        opcionCompilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479215449_tick_16.png"))); // NOI18N
         opcionCompilar.setText("Compilar Programa");
         opcionCompilar.setName("compilar"); // NOI18N
         menuEjecutar.add(opcionCompilar);
@@ -180,7 +260,7 @@ public class VentanaEditor extends javax.swing.JFrame {
 
         menuConfiguracion.setText("Configuracion");
 
-        opcionPreferencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/configuracion.png"))); // NOI18N
+        opcionPreferencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/1479216571_gear_16.png"))); // NOI18N
         opcionPreferencias.setText("Preferencias");
         menuConfiguracion.add(opcionPreferencias);
 
@@ -211,6 +291,12 @@ public class VentanaEditor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenu menuAnalizar;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuAyuda;
@@ -230,6 +316,15 @@ public class VentanaEditor extends javax.swing.JFrame {
     private javax.swing.JMenuItem opcionNuevo;
     private javax.swing.JMenuItem opcionPegar;
     private javax.swing.JMenuItem opcionPreferencias;
+    private javax.swing.JMenuItem opcionSalir;
     private javax.swing.JMenuItem opcionSobre;
+    private javax.swing.JButton toolAbrir;
+    private javax.swing.JToolBar toolBar;
+    private javax.swing.JButton toolCompilar;
+    private javax.swing.JButton toolCopiar;
+    private javax.swing.JButton toolCorrer;
+    private javax.swing.JButton toolGuardar;
+    private javax.swing.JButton toolPegar;
+    private javax.swing.JButton toolSalir;
     // End of variables declaration//GEN-END:variables
 }

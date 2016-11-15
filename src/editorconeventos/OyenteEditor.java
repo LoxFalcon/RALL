@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -44,7 +45,7 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        JMenuItem origen = (JMenuItem) ae.getSource();
+        JComponent origen = (JComponent) ae.getSource();
         switch (origen.getName()) { //Pasa el nombre de la clase que escucho el oyente
             case "nuevo":
                 if (confirmarGuardado()) {
@@ -89,6 +90,11 @@ public class OyenteEditor extends WindowAdapter implements ActionListener, Docum
                 break;
             case "iniciar":
                 ejecutar();
+                break;
+            case "salir":
+                if(confirmarGuardado()){
+                    System.exit(0);
+                }
                 break;
         }
     }
