@@ -78,43 +78,42 @@ public class RALLConverter implements lexicoConstants {
         symbols.append("	int fin;\n");
         symbols.append("	int capacidad;\n");
         symbols.append("};\n");
-        functions.append("int _popInt(struct _stackInt *s){\n");
+        functions.append("int _popInt(struct _stackInt* s){\n");
         functions.append("	if(s->tope == -1){\n");
         functions.append("		printf(\"ERROR Stack vacío\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
         functions.append("	return s->data[s->tope--];\n");
         functions.append("}\n");
-        functions.append("float _popFloat(struct _stackFloat *s){\n");
+        functions.append("float _popFloat(struct _stackFloat* s){\n");
         functions.append("	if(s->tope == -1){\n");
         functions.append("		printf(\"ERROR Stack vacío\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
         functions.append("	return s->data[s->tope--];\n");
         functions.append("}\n");
-        functions.append("char _popChar(struct _stackChar *s){\n");
+        functions.append("char _popChar(struct _stackChar* s){\n");
         functions.append("	if(s->tope == -1){\n");
         functions.append("		printf(\"ERROR Stack vacío\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
         functions.append("	return s->data[s->tope--];\n");
         functions.append("}\n");
-        functions.append("void _pushInt(struct _stackInt *s, int valor){\n");
-        functions.append("	printf(\"TOPe %d cap %d\\n\",s->tope,s->capacidad);\n");
+        functions.append("void _pushInt(struct _stackInt* s, int valor){\n");
         functions.append("	if(s->tope>=s->capacidad){\n");
         functions.append("		printf(\"ERROR Stack lleno\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
         functions.append("	s->data[++s->tope] = valor;\n");
         functions.append("}\n");
-        functions.append("void _pushFloat(struct _stackFloat *s, float valor){\n");
+        functions.append("void _pushFloat(struct _stackFloat* s, float valor){\n");
         functions.append("	if(s->tope>=s->capacidad){\n");
         functions.append("		printf(\"ERROR Stack lleno\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
         functions.append("	}\n");
         functions.append("	s->data[++s->tope] = valor;\n");
         functions.append("}\n");
-        functions.append("void _pushChar(struct _stackChar *s, char valor){\n");
+        functions.append("void _pushChar(struct _stackChar* s, char valor){\n");
         functions.append("	if(s->tope>=s->capacidad){\n");
         functions.append("		printf(\"ERROR Stack lleno\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
@@ -136,7 +135,7 @@ public class RALLConverter implements lexicoConstants {
         functions.append("	s->capacidad = capacidad;\n");
         functions.append("	s->data = (char*)malloc(capacidad*sizeof(char));\n");
         functions.append("}\n");
-        functions.append("int _frontInt(struct _queueInt *q){\n");
+        functions.append("int _frontInt(struct _queueInt* q){\n");
         functions.append("	if(q->frente==-1 || q->fin==-1){\n");
         functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
@@ -150,7 +149,7 @@ public class RALLConverter implements lexicoConstants {
         functions.append("	} \n");
         functions.append("	return retVal;\n");
         functions.append("}\n");
-        functions.append("float _frontFloat(struct _queueFloat *q){\n");
+        functions.append("float _frontFloat(struct _queueFloat* q){\n");
         functions.append("	if(q->frente==-1 || q->fin==-1){\n");
         functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
@@ -164,7 +163,7 @@ public class RALLConverter implements lexicoConstants {
         functions.append("	} \n");
         functions.append("	return retVal;\n");
         functions.append("}\n");
-        functions.append("char _frontChar(struct _queueChar *q){\n");
+        functions.append("char _frontChar(struct _queueChar* q){\n");
         functions.append("	if(q->frente==-1 || q->fin==-1){\n");
         functions.append("		printf(\"ERROR Cola vacía\\n\");\n");
         functions.append("		exit(EXIT_FAILURE);\n");
@@ -178,7 +177,7 @@ public class RALLConverter implements lexicoConstants {
         functions.append("	} \n");
         functions.append("	return retVal;\n");
         functions.append("}\n");
-        functions.append("void _enqueueInt(struct _queueInt *q, int valor){\n");
+        functions.append("void _enqueueInt(struct _queueInt* q, int valor){\n");
         functions.append("	int newIndex;\n");
         functions.append("	if(q->fin == -1 || q->frente == -1){\n");
         functions.append("		q->frente = 0;\n");
@@ -194,7 +193,7 @@ public class RALLConverter implements lexicoConstants {
         functions.append("		q->data[q->fin = newIndex] = valor;\n");
         functions.append("	}	\n");
         functions.append("}\n");
-        functions.append("void _enqueueFloat(struct _queueFloat *q, float valor){\n");
+        functions.append("void _enqueueFloat(struct _queueFloat* q, float valor){\n");
         functions.append("	int newIndex;\n");
         functions.append("	if(q->fin == -1 || q->frente == -1){\n");
         functions.append("		q->frente = 0;\n");
@@ -454,7 +453,7 @@ public class RALLConverter implements lexicoConstants {
 
     public void insertStack(int kind, String id) {
         StringBuilder target = getContext();
-        target.append("_stack");
+        target.append("struct _stack");
         String type = null;
         switch (kind) {
             case INT:
@@ -529,7 +528,7 @@ public class RALLConverter implements lexicoConstants {
 
     public void insertQueue(int kind, String id) {
         StringBuilder target = getContext();
-        target.append("_queue");
+        target.append("struct _queue");
         String type = null;
         switch (kind) {
             case INT:
